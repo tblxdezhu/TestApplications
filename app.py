@@ -54,8 +54,8 @@ def load_user(user_id):
 
 
 @app.route('/')
-@app.route('/index')
-@login_required
+# @app.route('/index')
+# @login_required
 def index():
     return render_template('index.html')
 
@@ -74,7 +74,7 @@ def login():
             login_user(user=curr_user, remember=form.remember.data)
             flash("Log in success", 'success')
             return redirect(url_for('index'))
-        flash('Please enter the correct username or password', 'danger')
+        flash('Please enter the correct username or password', category='danger')
     return render_template('login.html', form=form)
 
 
@@ -82,7 +82,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("Logged out successfully!", category='info')
+    flash("Logged out successfully!", category='success')
     return redirect(url_for('login'))
 
 
