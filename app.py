@@ -85,8 +85,7 @@ def logout():
 
 
 def auth_(form):
-    url = "https://stash.ygomi.com:7990/rest/api/1.0/users"
-    return requests.get(url=url, auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
+    return requests.get(url=os.getenv('RESTFUL_API_URL'), auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
 
 
 @app.cli.command()
