@@ -4,3 +4,30 @@
 # @Author  : Zhenxuan Xu
 # @File    : settings.py
 # @Software: Pycharm professional
+
+import os
+
+
+class BasicConfig(object):
+    basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    SECRET_KEY = os.urandom(24)
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class DevelopmentConfig(BasicConfig):
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}:{}/{}" \
+        .format(os.getenv('DATABASE_USERNAME'), os.getenv('DATABASE_PASSWORD'),
+                os.getenv('DATABASE_ADDRESS'), os.getenv('DATABASE_PORT'), os.getenv('DATABASE_NAME'))
+    # TODO change to sqlite for development
+
+
+class ProductionConfig(BasicConfig):
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}:{}/{}" \
+        .format(os.getenv('DATABASE_USERNAME'), os.getenv('DATABASE_PASSWORD'),
+                os.getenv('DATABASE_ADDRESS'), os.getenv('DATABASE_PORT'), os.getenv('DATABASE_NAME'))
+
+
+config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
+}
