@@ -1,107 +1,68 @@
 <!DOCTYPE html>
+<html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Test Application</title>
+    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">#}
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
+    {#    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">#}
+    <!-- Bulma Version 0.8.x-->
+    {#    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />#}
+    {#    <link rel="stylesheet" type="text/css" href="../css/login.css">#}
+    <link rel="stylesheet" href="{{ url_for('static',filename='bulma/css/bulma.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='login/css/login.css') }}">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-{#    <link rel="shortcut icon" href="favicon.ico">#}
-
-{#    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>#}
-
-    <link rel="stylesheet" href="{{ url_for('static',filename='login/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='login/css/animate.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='login/css/style.css') }}">
-    {#    <link rel="stylesheet" href="{{ url_for('static',filename='bulma.css') }}">#}
-    {#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">#}
-    <!-- Modernizr JS -->
-    <script src="{{ url_for('static',filename='login/js/modernizr-2.6.2.min.js') }}"></script>
-    {#    <script type="text/javascript">#}
-    {#        function login() {#}
-    {#            var postdata = $('#form').serialize();#}
-    {##}
-    {#            $.ajax({#}
-    {#                type: "POST",#}
-    {#                url: "/login",#}
-    {#                data: postdata,#}
-    {#                success: function () {#}
-    {#                    window.location.href = '/index'#}
-    {#alert(result.returnValue)#}
-    {#                    {% with messages = get_flashed_messages() %}#}
-    {#                        {% for message in messages %}#}
-    {#                            {% if message %}#}
-    {#                                toastr.info({{ message }})#}
-    {#                            {% endif %}#}
-    {#                        {% endfor %}#}
-    {#                    {% endwith %}#}
-    {#                    {% with messages = get_flashed_messages(with_categories=true) %}#}
-    {#                        {% if messages %}#}
-    {#                            {% for category,msg in messages %}#}
-    {#                                {% if category == 'error' %}#}
-    {#                                    toastr.error(msg)#}
-    {#                                {% elif category=='info' %}#}
-    {#                                    toastr.info(msg)#}
-    {#                                {% endif %}#}
-    {#                            {% endfor %}#}
-    {#                        {% endif %}#}
-    {#                    {% endwith %}#}
-    {#                }#}
-    {#            });#}
-    {#        }#}
-    {#    </script>#}
-
+    <script async type="text/javascript" src="{{ url_for('static',filename='bulma/js/bulma.js') }}"></script>
 </head>
+
 <body>
 
-<div class="container">
-    {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endwith %}
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <form method="post" class="fh5co-form animate-box" data-animate-effect="fadeIn">
-                {{ form.csrf_token }}
-                <h2>Sign In</h2>
-                <div class="form-group">
-                    {{ form.username(class='form-control',placeholder='Username') }}
+<section class="hero is-success is-fullheight">
+    <div class="column is-3 is-offset-9">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% for message in messages %}
+                <div class="notification is-{{ message[0] }}">
+                    {{ message[1] }}
                 </div>
-                <div class="form-group">
-                    {{ form.password(class='form-control',placeholder='Password') }}
+            {% endfor %}
+        {% endwith %}
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h3 class="title has-text-black">Login</h3>
+                <hr class="login-hr">
+                <p class="subtitle has-text-black">Please login to proceed.</p>
+                <div class="box">
+                    <figure class="avatar">
+                        <img src="{{ url_for('static',filename='pic/keji.jpeg') }}">
+                    </figure>
+                    <form method="post">
+                        {{ form.csrf_token }}
+                        <div class="field">
+                            <div class="control">
+                                {{ form.username(class='input is-large',placeholder='Username') }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                {{ form.password(class='input is-large',placeholder='Password') }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            {{ form.remember }}
+                            {{ form.remember.label }}
+                        </div>
+                        {{ form.submit(class='button is-block is-info is-large is-fullwidth') }}
+                    </form>
                 </div>
-                <div class="form-group">
-                    {{ form.remember }}
-                    {{ form.remember.label }}
-                </div>
-{#                <div class="form-group">#}
-{#                    <p>Not registered? <a href="/signup">Sign Up</a> | <a href="/forgot">Forgot Password?</a>#}
-{#                    </p>#}
-{#                </div>#}
-                <div class="form-group">
-                    {{ form.submit(class='btn btn-primary') }}
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-
-</div>
-
-<!-- jQuery -->
-{#<script defer src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>#}
-<script src="{{ url_for('static',filename='login/js/jquery.min.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ url_for('static',filename='login/js/bootstrap.min.js') }}"></script>
-<!-- Placeholder -->
-<script src="{{ url_for('static',filename='login/js/jquery.placeholder.min.js') }}"></script>
-<!-- Waypoints -->
-<script src="{{ url_for('static',filename='login/js/jquery.waypoints.min.js') }}"></script>
-<!-- Main JS -->
-<script src="{{ url_for('static',filename='login/js/main.js') }}"></script>
-
-
+</section>
 </body>
-</html>
 
+</html>
