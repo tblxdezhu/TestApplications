@@ -1,0 +1,35 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test Application System</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    {#  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">#}
+    <link rel="stylesheet" href="../static/bulma/css/bulma.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/bulma/css/personal.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='login/css/login.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="../static/toastr/toastr.min.css">
+    <script async type="text/javascript" src="../static/bulma/js/bulma.js"></script>
+    <script src="../static/bulma/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/toastr/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            progressBar: false,
+            positionClass: "toast-top-right",
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "5000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+    </script>
+</head>

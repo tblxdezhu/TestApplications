@@ -1,35 +1,18 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Test Application</title>
-    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">#}
-    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
-    {#    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">#}
-    <!-- Bulma Version 0.8.x-->
-    {#    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />#}
-    {#    <link rel="stylesheet" type="text/css" href="../css/login.css">#}
-    <link rel="stylesheet" href="{{ url_for('static',filename='bulma/css/bulma.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='login/css/login.css') }}">
-
-    <script async type="text/javascript" src="{{ url_for('static',filename='bulma/js/bulma.js') }}"></script>
-</head>
+{% include 'header.html' %}
 
 <body>
 
 <section class="hero is-success is-fullheight">
-    <div class="column is-3 is-offset-9">
-        {% with messages = get_flashed_messages(with_categories=True) %}
-            {% for message in messages %}
-                <div class="notification is-{{ message[0] }}">
-                    {{ message[1] }}
-                </div>
-            {% endfor %}
-        {% endwith %}
-    </div>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% for message in messages %}
+            <script type="text/javascript">
+                toastr.{{ message[0] }}('{{ message[1] }}')
+            </script>
+        {% endfor %}
+    {% endwith %}
     <div class="hero-body">
         <div class="container has-text-centered">
             <div class="column is-4 is-offset-4">

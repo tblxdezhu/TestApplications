@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Test Application System</title>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    {#  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">#}
-    <!-- Bulma Version 0.8.x-->
-    <link rel="stylesheet" href="../static/bulma/css/bulma.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../static/bulma/css/personal.css">
-    <script async type="text/javascript" src="../static/bulma/js/bulma.js"></script>
-    <script src="../static/bulma/js/jquery-3.4.1.min.js"></script>
-
-</head>
-
+{% include 'header.html' %}
 <body>
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% for message in messages %}
+        <script type="text/javascript">
+            toastr.{{ message[0] }}('{{ message[1] }}')
+        </script>
+    {% endfor %}
+{% endwith %}
 <!-- Navigation bar -->
 <nav class="navbar is-link is-fixed-top">
     <div class="navbar-brand">
@@ -36,12 +27,22 @@
                 </span>
                 <span>About</span>
             </a>
-            <a class="navbar-item" href="#services">
-                <span class="icon">
-                    <i class="fas fa-bars"></i>
-                </span>
-                <span>Services</span>
-            </a>
+            <div class="navbar-item has-dropdown is-hoverable" href="#services">
+                <a class="navbar-link">
+                   <span class="icon">
+                       <i class="fas fa-bars"></i>
+                   </span>
+                    <span>Services</span>
+                </a>
+                <div class="navbar-dropdown">
+                    <a href="#" class="navbar-item">
+                        A
+                    </a>
+                    <a href="#" class="navbar-item">
+                        B
+                    </a>
+                </div>
+            </div>
             <a class="navbar-item" href="#resume">
                 <span class="icon">
                     <i class="fas fa-file-alt"></i>
@@ -83,12 +84,16 @@
             <h2 class="subtitle is-3">
                 Welcome to Test Application System
             </h2>
-            <a id="start" class="button is-info">Start</a>
+            <button id="start" class="button is-info">Start</button>
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
                 $("#start").click(function () {
-                    $("#modal").addClass("is-active");
+                    {% if current_user.is_authenticated%}
+                        $("#modal").addClass("is-active");
+                    {% else %}
+                        toastr.error("Please Login")
+                    {% endif %}
                 });
                 $("#submit_application_cancel").click(function () {
                     $("#modal").removeClass("is-active");
@@ -107,7 +112,90 @@
                 <button class="delete" aria-label="close" id="submit_application_delete"></button>
             </header>
             <section class="modal-card-body">
-                <!-- Content ... -->
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Text input">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+                        <span class="icon is-small is-left">
+      <i class="fas fa-user"></i>
+    </span>
+                        <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+                    </div>
+                    <p class="help is-success">This username is available</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+                        <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+                        <span class="icon is-small is-right">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+                    </div>
+                    <p class="help is-danger">This email is invalid</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Subject</label>
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                                <option>Select dropdown</option>
+                                <option>With options</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Message</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Textarea"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            I agree to the <a href="#">terms and conditions</a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="question">
+                            Yes
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="question">
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-link">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-text">Cancel</button>
+                    </div>
+                </div>
             </section>
             <footer class="modal-card-foot">
                 <button class="button is-success">Save changes</button>
@@ -175,7 +263,7 @@
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-4by3">
-                        <img src="https://source.unsplash.com/random/1280x960" alt="Placeholder image">
+                        <img src="" alt="Placeholder image">
                     </figure>
                 </div>
             </div>
@@ -277,7 +365,8 @@
                 <div class="box">
                     <div class="content">
                         <h4 class="title is-5">Front End Web Development</h4>
-                        Develop Front End using latest standards with HTML5/CSS3 with added funtionality using JavaScript and
+                        Develop Front End using latest standards with HTML5/CSS3 with added funtionality using
+                        JavaScript and
                         Vue.js.
                     </div>
                 </div>
@@ -286,7 +375,8 @@
                 <div class="box">
                     <div class="content">
                         <h4 class="title is-5">Back End Web Development</h4>
-                        Develop Back End application/service using Node.js or ASP .NET and SQL server or Mongo DB databases.
+                        Develop Back End application/service using Node.js or ASP .NET and SQL server or Mongo DB
+                        databases.
                     </div>
                 </div>
             </div>
@@ -297,7 +387,8 @@
                 <div class="box">
                     <div class="content">
                         <h4 class="title is-5">Front End Web Development</h4>
-                        Develop Front End using latest standards with HTML5/CSS3 with added funtionality using JavaScript and
+                        Develop Front End using latest standards with HTML5/CSS3 with added funtionality using
+                        JavaScript and
                         Vue.js.
                     </div>
                 </div>
@@ -306,7 +397,8 @@
                 <div class="box">
                     <div class="content">
                         <h4 class="title is-5">Back End Web Development</h4>
-                        Develop Back End application/service using Node.js or ASP .NET and SQL server or Mongo DB databases.
+                        Develop Back End application/service using Node.js or ASP .NET and SQL server or Mongo DB
+                        databases.
                     </div>
                 </div>
             </div>
