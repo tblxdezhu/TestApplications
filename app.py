@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, make_response
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -54,8 +54,6 @@ def load_user(user_id):
 
 
 @app.route('/')
-# @app.route('/index')
-# @login_required
 def index():
     return render_template('index.html')
 
@@ -74,7 +72,7 @@ def login():
             login_user(user=curr_user, remember=form.remember.data)
             flash("Log in success", 'success')
             return redirect(url_for('index'))
-        flash('Please enter the correct username or password', category='danger')
+        flash('Please enter the correct username or password', category='error')
     return render_template('login.html', form=form)
 
 
@@ -83,11 +81,14 @@ def login():
 def logout():
     logout_user()
     flash("Logged out successfully!", category='success')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 def auth_(form):
-    return requests.get(url=os.getenv('RESTFUL_API_URL'), auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
+    if os.getenv("FLASK_ENV") == 'development':
+        return make_response('', 200)
+    return requests.get(url=os.getenv('RESTFUL_API_URL'),
+                        auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
 
 
 @app.cli.command()

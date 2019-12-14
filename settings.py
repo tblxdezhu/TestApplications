@@ -15,10 +15,7 @@ class BasicConfig(object):
 
 
 class DevelopmentConfig(BasicConfig):
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}:{}/{}" \
-        .format(os.getenv('DATABASE_USERNAME'), os.getenv('DATABASE_PASSWORD'),
-                os.getenv('DATABASE_ADDRESS'), os.getenv('DATABASE_PORT'), os.getenv('DATABASE_NAME'))
-    # TODO change to sqlite for development
+    SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(os.path.join(os.path.dirname(__file__), 'development.db'))
 
 
 class ProductionConfig(BasicConfig):
