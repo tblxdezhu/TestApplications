@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, make_response
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -48,14 +48,27 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log in')
 
 
+class ApplicationForm(FlaskForm):
+    description = TextAreaField('Description', validators=[DataRequired()])
+    jira_ticket = StringField('Jira Ticket', validators=[DataRequired()])
+    expect_time = StringField('Except Time')
+    test_data = StringField('Test Data')
+    submit = SubmitField('Submit')
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('index.html')
+    form = ApplicationForm()
+    if form.validate_on_submit():
+        if form.submit.data:
+            print(form.description.data)
+            flash("Submit success", "success")
+    return render_template('index.html', form=form)
 
 
 @app.route('/login', methods=['POST', 'GET'])
