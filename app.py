@@ -28,17 +28,17 @@ class User(db.Model, UserMixin):
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.Column(db.String(20), db.ForeignKey('user.username'))
     title = db.Column(db.String(300), index=True)
     description = db.Column(db.Text)
     jira_ticket = db.Column(db.String(100), index=True)
-    create_time = db.Column(db.DateTime, default=datetime.now, index=True)
+    create_time = db.Column(db.DateTime, index=True)
     expected_time = db.Column(db.DateTime)
     test_data = db.Column(db.String(100), default="default")
-    branches = db.Column(db.String(300))
+    branches = db.Column(db.String(300), default="master")
     configs = db.Column(db.String(100), default="default")
     compare_branches = db.Column(db.String(100), default="master")
-    if_report = db.Column(db.Boolean)
+    if_report = db.Column(db.Boolean, default=True)
 
 
 class LoginForm(FlaskForm):
@@ -66,9 +66,20 @@ def index():
     form = ApplicationForm()
     if form.validate_on_submit():
         if form.submit.data:
-            print(form.description.data)
+            application = Application(
+                author=current_user.username,
+                description=form.description.data,
+                jira_ticket=form.jira_ticket.data,
+                expected_time=datetime.strptime(form.expect_time.data, '%Y-%m-%d %H:%M'),
+                test_data=form.test_data.data,
+                create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S')
+            )
+            db.session.add(application)
+            db.session.commit()
             flash("Submit success", "success")
-    return render_template('index.html', form=form)
+            return redirect(url_for('index'))
+    applications = Application.query.order_by(Application.create_time.desc()).all()
+    return render_template('index.html', form=form, applications=applications)
 
 
 @app.route('/login', methods=['POST', 'GET'])
