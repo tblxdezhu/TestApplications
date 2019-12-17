@@ -26,9 +26,37 @@
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <button class="button is-info is-right">Detail</button>
+                            <button class="button is-info is-right" id="detail-{{ application.id }}">Detail</button>
                         </div>
                     </div>
+                    <div class="modal" id="modal-{{ application.id }}">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">{{ application.jira_ticket }}</p>
+                                <button class="delete" aria-label="close"
+                                        id="application_{{ application.id }}_delete"></button>
+                            </header>
+                            <section class="modal-card-body">
+                                <div class="field">
+                                    <label class="label">Description</label>
+                                    <div class="control">
+                                        {{ application.description }}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#detail-{{ application.id }}").click(function () {
+                                $("#modal-{{ application.id }}").addClass("is-active");
+                            });
+                            $("#application_{{ application.id }}_delete").click(function () {
+                                $("#modal-{{ application.id }}").removeClass("is-active");
+                            });
+                        });
+                    </script>
                 </nav>
             </div>
         </div>
@@ -41,14 +69,16 @@
         {% for page in pagination.iter_pages(left_edge=2, left_current=2) %}
             {% if page == pagination.page %}
                 <li>
-                    <a class="pagination-link is-current" aria-label="Page {{ page }}" aria-current="page">{{ page }}</a>
+                    <a class="pagination-link is-current" aria-label="Page {{ page }}"
+                       aria-current="page">{{ page }}</a>
                 </li>
             {% elif page == None %}
                 <li>
                     <span class="pagination-ellipsis">&hellip;</span>
                 </li>
             {% else %}
-                <a class="pagination-link" aria-label="Page {{ page }}" aria-current="page" onclick="get_page({{ page }})">{{ page }}</a>
+                <a class="pagination-link" aria-label="Page {{ page }}" aria-current="page"
+                   onclick="get_page({{ page }})">{{ page }}</a>
             {% endif %}
         {% endfor %}
     </ul>

@@ -149,83 +149,15 @@
 
 </section>
 <section class="section" id="history">
-    <div class="section-heading">
-        <h3 class="title is-2">History</h3>
-        <h4 class="subtitle is-5">Test application submitted</h4>
-    </div>
-    <div class="container" id="applications">
-        {% for application in pagination.items %}
-            <div class="card">
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-4">
-                                {{ application.jira_ticket }}
-                                <span class="tag is-success">Done</span>
-                            </p>
-                            <p class="subtitle"> @{{ application.author }}</p>
-                        </div>
-                    </div>
-                    <div class="content">
-                        {{ application.description }}
-                    </div>
-                    <nav class="level">
-                        <div class="level-left">
-                            <div class="level-item">
-                                <time>{{ application.create_time }}</time>
-                            </div>
-                        </div>
-                        <div class="level-right">
-                            <div class="level-item">
-                                <button class="button is-info is-right">Detail</button>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-            <br>
-        {% endfor %}
-    </div>
-
-    <nav class="pagination is-right" role="navigation" aria-label="pagination">
-        <ul class="pagination-list">
-            {% for page in pagination.iter_pages(left_edge=2, left_current=2) %}
-                {% if page == pagination.page %}
-                    <li>
-                        <a class="pagination-link is-current" aria-label="Page {{ page }}" aria-current="page">{{ page }}</a>
-                    </li>
-                {% elif page == None %}
-                    <li>
-                        <span class="pagination-ellipsis">&hellip;</span>
-                    </li>
-                {% else %}
-{#                                            href="{{ url_for('get_page',page=page) }}"#}
-                    <a class="pagination-link" aria-label="Page {{ page }}" aria-current="page" onclick="get_page({{ page }})">{{ page }}</a>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </nav>
-    <script type="text/javascript">
-        function get_page(_page) {
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: '/page/' + _page,
-                    dataType: 'html',
-                    success: function (data) {
-                        $("#history").html(data)
-                    }
-                }
-            )
-        }
-    </script>
+    {% include 'paginations.html' %}
 </section>
 
 <!-- Footer -->
 <footer class="footer">
     <div class="section-heading">
         <p>
-            <strong><a href="https://github.com/tblxdezhu/TestApplications">Test Application System</a></strong> by Zhenxuan.Xu. The
+            <strong><a href="https://github.com/tblxdezhu/TestApplications">Test Application System</a></strong> by
+            Zhenxuan.Xu. The
             source code is licensed
             <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
         </p>
