@@ -11,6 +11,7 @@ import click
 from datetime import datetime
 from settings import config
 import os
+from faker import Faker
 
 app = Flask(__name__)
 app.config.from_object(config[os.getenv('FLASK_ENV', 'development')])
@@ -80,13 +81,15 @@ def index(page=1):
             db.session.commit()
             flash("Submit success", "success")
             return redirect(url_for('index'))
-    pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+    pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config[
+        'APPLICATIONS_PER_PAGE'])
     return render_template('index.html', form=form, pagination=pagination)
 
 
 @app.route('/page/<int:page>')
 def get_page(page):
-    pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+    pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config[
+        'APPLICATIONS_PER_PAGE'])
     return render_template('paginations.html', pagination=pagination)
 
 
@@ -124,10 +127,24 @@ def auth_(form):
 
 
 @app.cli.command()
-def initdb():
+@click.option('--count', default=20, help='num of data')
+def initdb(count):
     db.drop_all()
     db.create_all()
-    click.echo("Initialized database.")
+    click.echo("Start init db")
+    fake = Faker()
+    for i in range(count):
+        application = Application(
+            author=fake.name(),
+            description=fake.sentence(),
+            jira_ticket=fake.license_plate(),
+            expected_time=fake.date_time_this_decade(before_now=True, after_now=False, tzinfo=None),
+            test_data=fake.company(),
+            create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S')
+        )
+        db.session.add(application)
+    db.session.commit()
+    click.echo("Initialized database")
 
 
 if __name__ == '__main__':
