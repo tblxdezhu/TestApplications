@@ -21,40 +21,40 @@
 
     <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-end">
-            <a class="navbar-item" href="#about">
-                <span class="icon">
-                    <i class="fas fa-info"></i>
-                </span>
-                <span>About</span>
-            </a>
+
             <div class="navbar-item has-dropdown is-hoverable" href="#services">
                 <a class="navbar-link">
-                   <span class="icon">
-                       <i class="fas fa-bars"></i>
-                   </span>
-                    <span>Services</span>
+                    <span>Histories</span>
                 </a>
                 <div class="navbar-dropdown">
-                    <a href="#" class="navbar-item">
-                        A
+                    <a id="history-yourself" onclick="get_history()" class="navbar-item">
+                        Yourself
                     </a>
-                    <a href="#" class="navbar-item">
-                        B
+                    <a href="#history" class="navbar-item">
+                        All
                     </a>
                 </div>
+                <script type="text/javascript">
+                    function get_history() {
+                        $.ajax(
+                            {
+                                type: 'GET',
+                                url: '/history/' + {{ current_user.username }},
+                                dataType: 'html',
+                                success: function (data) {
+                                    $("#history").html(data)
+                                }
+                            }
+                        )
+                    }
+                </script>
             </div>
             {% if current_user.is_authenticated %}
                 <a class="navbar-item" href="/logout">
-                    <span class="icon">
-                        <i class="fas fa-envelope"></i>
-                    </span>
                     <span>Logout</span>
                 </a>
             {% else %}
                 <a class="navbar-item" href="/login">
-                    <span class="icon">
-                        <i class="fas fa-envelope"></i>
-                    </span>
                     <span>Log in</span>
                 </a>
             {% endif %}
@@ -89,6 +89,7 @@
                 $("#submit_application_delete").click(function () {
                     $("#modal").removeClass("is-active");
                 });
+
             });
         </script>
     </div>
@@ -156,8 +157,7 @@
 <footer class="footer">
     <div class="section-heading">
         <p>
-            <strong><a href="https://github.com/tblxdezhu/TestApplications">Test Application System</a></strong> by
-            Zhenxuan.Xu. The
+            <strong><a href="https://github.com/tblxdezhu/TestApplications">Test Application System.</a></strong> The
             source code is licensed
             <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
         </p>

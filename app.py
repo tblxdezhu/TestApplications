@@ -63,7 +63,6 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-# @app.route('/page/<int:page>')
 @app.route('/', methods=['POST', 'GET'])
 def index(page=1):
     form = ApplicationForm()
@@ -93,6 +92,14 @@ def get_page(page):
     return render_template('paginations.html', pagination=pagination)
 
 
+@app.route('/history')
+@app.route('/history/<string:username>')
+@app.route('/history/<string:username>/<int:page>')
+def get_history(username, page=1):
+    pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+    return render_template('paginations.html', pagination=pagination)
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     form = LoginForm()
@@ -100,7 +107,7 @@ def login():
         if auth_(form).status_code == 200:
             username = form.username.data
             curr_user = User.query.filter_by(username=username).first()
-            if curr_user is None:
+            if curr_user is None and os.getenv("FLASK_ENV") == 'development':
                 curr_user = User(username=username)
                 db.session.add(curr_user)
                 db.session.commit()
