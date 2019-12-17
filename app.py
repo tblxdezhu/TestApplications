@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, make_response
+from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length
@@ -39,6 +39,7 @@ class Application(db.Model):
     configs = db.Column(db.String(100), default="default")
     compare_branches = db.Column(db.String(100), default="master")
     if_report = db.Column(db.Boolean, default=True)
+    # status = db.Column(db.String(20))
 
 
 class LoginForm(FlaskForm):
@@ -61,8 +62,9 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
+# @app.route('/page/<int:page>')
 @app.route('/', methods=['POST', 'GET'])
-def index():
+def index(page=1):
     form = ApplicationForm()
     if form.validate_on_submit():
         if form.submit.data:
@@ -78,8 +80,14 @@ def index():
             db.session.commit()
             flash("Submit success", "success")
             return redirect(url_for('index'))
-    applications = Application.query.order_by(Application.create_time.desc()).all()
-    return render_template('index.html', form=form, applications=applications)
+    pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+    return render_template('index.html', form=form, pagination=pagination)
+
+
+@app.route('/page/<int:page>')
+def get_page(page):
+    pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+    return render_template('paginations.html', pagination=pagination)
 
 
 @app.route('/login', methods=['POST', 'GET'])

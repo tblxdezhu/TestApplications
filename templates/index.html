@@ -43,18 +43,6 @@
                     </a>
                 </div>
             </div>
-            <a class="navbar-item" href="#resume">
-                <span class="icon">
-                    <i class="fas fa-file-alt"></i>
-                </span>
-                <span>Resume</span>
-            </a>
-            <a class="navbar-item" href="#portfolio">
-                <span class="icon">
-                    <i class="fas fa-th-list"></i>
-                </span>
-                <span>Portfolio</span>
-            </a>
             {% if current_user.is_authenticated %}
                 <a class="navbar-item" href="/logout">
                     <span class="icon">
@@ -110,13 +98,11 @@
         <div class="modal" id="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
-
                 <header class="modal-card-head">
                     <p class="modal-card-title">Modal title</p>
                     <button class="delete" aria-label="close" id="submit_application_delete"></button>
                 </header>
                 <section class="modal-card-body">
-
                     <div class="field">
                         <label class="label">{{ form.description.label }}</label>
                         <div class="control">
@@ -132,7 +118,6 @@
                     <div class="field">
                         <label class="label">{{ form.expect_time.label }}</label>
                         <div class="control">
-                            {#                            <input id="except_time" type="text" class="input">#}
                             {{ form.expect_time(class='input',type='text',id='except_time') }}
                         </div>
                     </div>
@@ -168,18 +153,22 @@
         <h3 class="title is-2">History</h3>
         <h4 class="subtitle is-5">Test application submitted</h4>
     </div>
-    {% for application in applications %}
-        <div class="card">
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-4">{{ application.jira_ticket }}</p>
-                        <p class="subtitle"> @{{ application.author }}</p>
+    <div class="container" id="applications">
+        {% for application in pagination.items %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">
+                                {{ application.jira_ticket }}
+                                <span class="tag is-success">Done</span>
+                            </p>
+                            <p class="subtitle"> @{{ application.author }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="content">
-                    {{ application.description }}
-                </div>
+                    <div class="content">
+                        {{ application.description }}
+                    </div>
                     <nav class="level">
                         <div class="level-left">
                             <div class="level-item">
@@ -192,11 +181,46 @@
                             </div>
                         </div>
                     </nav>
+                </div>
             </div>
-        </div>
-        <br>
-    {% endfor %}
+            <br>
+        {% endfor %}
+    </div>
+
+    <nav class="pagination is-right" role="navigation" aria-label="pagination">
+        <ul class="pagination-list">
+            {% for page in pagination.iter_pages(left_edge=2, left_current=2) %}
+                {% if page == pagination.page %}
+                    <li>
+                        <a class="pagination-link is-current" aria-label="Page {{ page }}" aria-current="page">{{ page }}</a>
+                    </li>
+                {% elif page == None %}
+                    <li>
+                        <span class="pagination-ellipsis">&hellip;</span>
+                    </li>
+                {% else %}
+{#                                            href="{{ url_for('get_page',page=page) }}"#}
+                    <a class="pagination-link" aria-label="Page {{ page }}" aria-current="page" onclick="get_page({{ page }})">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+    <script type="text/javascript">
+        function get_page(_page) {
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/page/' + _page,
+                    dataType: 'html',
+                    success: function (data) {
+                        $("#history").html(data)
+                    }
+                }
+            )
+        }
+    </script>
 </section>
+
 <!-- Footer -->
 <footer class="footer">
     <div class="section-heading">
