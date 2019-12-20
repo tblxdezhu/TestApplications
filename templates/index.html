@@ -27,29 +27,29 @@
                     <span>Histories</span>
                 </a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" id="history_myself">
+                    <a class="navbar-item " id="history_myself">
                         Yourself
                     </a>
-                    <a class="navbar-item" href="/" id="history_all">
+                    <a class="navbar-item " id="history_all">
                         All
                     </a>
                 </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#history_myself").click(function () {
-                             $.ajax(
-                                {
-                                    type: 'GET',
-                                    url: '/history/{{ current_user.username }}',
-                                    dataType: 'html',
-                                    success: function (data) {
-                                        $("#history").html(data)
-                                    }
-                                }
-                            )
-                        })
-                    })
-                </script>
+{#                <script type="text/javascript">#}
+{#                    $(document).ready(function () {#}
+{#                        $("#history_myself").click(function () {#}
+{#                             $.ajax(#}
+{#                                {#}
+{#                                    type: 'GET',#}
+{#                                    url: '/history/{{ current_user.username }}',#}
+{#                                    dataType: 'html',#}
+{#                                    success: function (data) {#}
+{#                                        $("#history").html(data)#}
+{#                                    }#}
+{#                                }#}
+{#                            )#}
+{#                        })#}
+{#                    })#}
+{#                </script>#}
             </div>
             {% if current_user.is_authenticated %}
                 <a class="navbar-item" href="/logout">

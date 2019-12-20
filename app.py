@@ -91,14 +91,21 @@ def get_page(page):
         'APPLICATIONS_PER_PAGE'])
     return render_template('paginations.html', pagination=pagination)
 
-
-@app.route('/history/<string:username>/<int:page>', methods=['GET'])
-@app.route('/history/<string:username>', methods=['GET'])
-@app.route('/history')
-def get_history(username, page=1):
-    print("username",username)
-    pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
-    return render_template('paginations.html', pagination=pagination)
+#
+# @app.route('/page/<string:username>/<int:page>')
+# def get_my_page(username, page=1):
+#     print("username", username)
+#     pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+#     return render_template('paginations.html', pagination=pagination)
+#
+#
+# @app.route('/history/<string:username>/<int:page>', methods=['GET'])
+# @app.route('/history/<string:username>', methods=['GET'])
+# @app.route('/history')
+# def get_history(username, page=1):
+#     print("username", username)
+#     pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
+#     return render_template('paginations.html', pagination=pagination)
 
 
 @app.route('/login', methods=['POST', 'GET'])
