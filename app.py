@@ -92,10 +92,11 @@ def get_page(page):
     return render_template('paginations.html', pagination=pagination)
 
 
+@app.route('/history/<string:username>/<int:page>', methods=['GET'])
+@app.route('/history/<string:username>', methods=['GET'])
 @app.route('/history')
-@app.route('/history/<string:username>')
-@app.route('/history/<string:username>/<int:page>')
 def get_history(username, page=1):
+    print("username",username)
     pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
     return render_template('paginations.html', pagination=pagination)
 

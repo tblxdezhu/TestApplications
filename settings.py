@@ -12,7 +12,7 @@ class BasicConfig(object):
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     SECRET_KEY = os.urandom(24)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    APPLICATIONS_PER_PAGE = 5
+    APPLICATIONS_PER_PAGE = 2
 
 
 class DevelopmentConfig(BasicConfig):
