@@ -24,12 +24,12 @@ db = SQLAlchemy(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True)
-    applications = db.relationship('Application')
+    # applications = db.relationship('Application')
 
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(20), db.ForeignKey('user.username'))
+    author = db.Column(db.String(20), index=True)
     title = db.Column(db.String(300), index=True)
     description = db.Column(db.Text)
     jira_ticket = db.Column(db.String(100), index=True)
@@ -91,6 +91,7 @@ def get_page(page):
         'APPLICATIONS_PER_PAGE'])
     return render_template('paginations.html', pagination=pagination)
 
+
 #
 # @app.route('/page/<string:username>/<int:page>')
 # def get_my_page(username, page=1):
@@ -115,10 +116,11 @@ def login():
         if auth_(form).status_code == 200:
             username = form.username.data
             curr_user = User.query.filter_by(username=username).first()
-            if curr_user is None and os.getenv("FLASK_ENV") == 'development':
+            if curr_user is None:
                 curr_user = User(username=username)
                 db.session.add(curr_user)
                 db.session.commit()
+
             login_user(user=curr_user, remember=form.remember.data)
             flash("Log in success", 'success')
             return redirect(url_for('index'))
