@@ -24,23 +24,25 @@ db = SQLAlchemy(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True)
-    # applications = db.relationship('Application')
+    role = db.Column(db.String(20))
+    team = db.Column(db.String(20))
+    applications = db.relationship('Application')
 
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(20), index=True)
-    title = db.Column(db.String(300), index=True)
+    author = db.Column(db.Integer, db.ForeignKey('user.username'), index=True)
     description = db.Column(db.Text)
     jira_ticket = db.Column(db.String(100), index=True)
     create_time = db.Column(db.DateTime, index=True)
     expected_time = db.Column(db.DateTime)
-    test_data = db.Column(db.String(100), default="default")
+    test_data = db.Column(db.Text)
     branches = db.Column(db.String(300), default="master")
-    configs = db.Column(db.String(100), default="default")
+    notes = db.Column(db.Text, default="default")
     compare_branches = db.Column(db.String(100), default="master")
     if_report = db.Column(db.Boolean, default=True)
-    # status = db.Column(db.String(20))
+    status = db.Column(db.String(20), default="todo")
+    test_report_link = db.Column(db.String(100))
 
 
 class LoginForm(FlaskForm):
@@ -151,6 +153,8 @@ def initdb(count):
     click.echo("Start init db")
     fake = Faker()
     for i in range(count):
+        username = fake.name()
+        user = User(username=username,role=)
         application = Application(
             author=fake.name(),
             description=fake.sentence(),
