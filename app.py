@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField,RadioField
 from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True)
     role = db.Column(db.String(20))
     team = db.Column(db.String(20))
+    email = db.Column(db.String(20))
     applications = db.relationship('Application', back_populates='author')
 
 
@@ -58,6 +59,10 @@ class ApplicationForm(FlaskForm):
     jira_ticket = StringField('Jira Ticket', validators=[DataRequired()])
     expect_time = StringField('Except Time')
     test_data = StringField('Test Data')
+    test_branches = TextAreaField('Test Branches (Unspecified branches:master)')
+    compare_branches = TextAreaField('Base Branches')
+    notes = TextAreaField('Notes')
+    team = SelectField('Team', choices=[(1, 'SLAM'), (2, 'SVM')], coerce=int)
     submit = SubmitField('Submit')
 
 
@@ -77,7 +82,10 @@ def index(page=1):
                 jira_ticket=form.jira_ticket.data,
                 expected_time=datetime.strptime(form.expect_time.data, '%Y-%m-%d %H:%M'),
                 test_data=form.test_data.data,
-                create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S')
+                create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S'),
+                branches=form.test_branches.data,
+                compare_branches=form.compare_branches.data,
+                notes=form.notes.data
             )
             application.author = current_user
             db.session.add(application)
@@ -163,7 +171,10 @@ def initdb(count):
             jira_ticket=fake.license_plate(),
             expected_time=fake.date_time_this_decade(before_now=True, after_now=False, tzinfo=None),
             test_data=fake.company(),
-            create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S')
+            create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S'),
+            branches=fake.sentence(),
+            compare_branches=fake.sentence(),
+            notes=fake.sentence()
         )
         application.author = user
         db.session.add(user)

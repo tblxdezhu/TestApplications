@@ -34,22 +34,22 @@
                         All
                     </a>
                 </div>
-{#                <script type="text/javascript">#}
-{#                    $(document).ready(function () {#}
-{#                        $("#history_myself").click(function () {#}
-{#                             $.ajax(#}
-{#                                {#}
-{#                                    type: 'GET',#}
-{#                                    url: '/history/{{ current_user.username }}',#}
-{#                                    dataType: 'html',#}
-{#                                    success: function (data) {#}
-{#                                        $("#history").html(data)#}
-{#                                    }#}
-{#                                }#}
-{#                            )#}
-{#                        })#}
-{#                    })#}
-{#                </script>#}
+                {#                <script type="text/javascript">#}
+                {#                    $(document).ready(function () {#}
+                {#                        $("#history_myself").click(function () {#}
+                {#                             $.ajax(#}
+                {#                                {#}
+                {#                                    type: 'GET',#}
+                {#                                    url: '/history/{{ current_user.username }}',#}
+                {#                                    dataType: 'html',#}
+                {#                                    success: function (data) {#}
+                {#                                        $("#history").html(data)#}
+                {#                                    }#}
+                {#                                }#}
+                {#                            )#}
+                {#                        })#}
+                {#                    })#}
+                {#                </script>#}
             </div>
             {% if current_user.is_authenticated %}
                 <a class="navbar-item" href="/logout">
@@ -102,32 +102,60 @@
             <div class="modal-background"></div>
             <div class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Modal title</p>
+                    <p class="modal-card-title">Create Application</p>
                     <button class="delete" aria-label="close" id="submit_application_delete"></button>
                 </header>
                 <section class="modal-card-body">
                     <div class="field">
+                        <label class="label">Team</label>
+                        <div class="control">
+                            <div class="select">
+                                {{ form.team() }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
                         <label class="label">{{ form.description.label }}</label>
                         <div class="control">
-                            {{ form.description(class='textarea') }}
+                            {{ form.description(class='textarea',placeholder='发起测试的原因/测试功能') }}
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">{{ form.jira_ticket.label }}</label>
                         <div class="control">
-                            {{ form.jira_ticket(class='input') }}
+                            {{ form.jira_ticket(class='input',placeholder='本测试对应的 JIRA Ticket') }}
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">{{ form.expect_time.label }}</label>
                         <div class="control">
-                            {{ form.expect_time(class='input',type='text',id='except_time') }}
+                            {{ form.expect_time(class='input',type='text',id='except_time',placeholder='期望完成时间') }}
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">{{ form.test_data.label }}</label>
                         <div class="control">
                             {{ form.test_data(class='input') }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">{{ form.test_branches.label }}</label>
+                        <div class="control">
+                            <textarea class="textarea" id="test_branches" name="test_branches" placeholder="">algorithm_common: &#10;algorithm_common_slam: &#10;algorithm_vehicle_svm:&#10;</textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">{{ form.compare_branches.label }}</label>
+                        <div class="control">
+                            {{ form.compare_branches(class='textarea',placeholder='未指明默认使用master分支') }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">{{ form.notes.label }}</label>
+                        <div class="control">
+                            {{ form.notes(class='textarea',placeholder='1.配置信息
+2.验收标准
+3.其他注意事项') }}
                         </div>
                     </div>
                     <script type="text/javascript">
