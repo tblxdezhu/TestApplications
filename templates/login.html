@@ -1,51 +1,60 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-US">
 {% include 'header.html' %}
-
-<body>
-
-<section class="hero is-success is-fullheight">
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% for message in messages %}
-            <script type="text/javascript">
-                toastr.{{ message[0] }}('{{ message[1] }}')
-            </script>
-        {% endfor %}
-    {% endwith %}
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <div class="column is-4 is-offset-4">
-                <h3 class="title has-text-black">Login</h3>
-                <hr class="login-hr">
-                <p class="subtitle has-text-black">Please login to proceed.</p>
-                <div class="box">
-                    <figure class="avatar">
-                        <img src="{{ url_for('static',filename='pic/keji.jpeg') }}">
-                    </figure>
+<body class="has-navbar-fixed-top ">
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% for message in messages %}
+        <script type="text/javascript">
+            toastr.{{ message[0] }}('{{ message[1] }}')
+        </script>
+    {% endfor %}
+{% endwith %}
+<nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">Test Application System</a>
+        </div>
+    </div>
+</nav>
+<section class="section has-background-white-bis ">
+    <div class="columns is-centered">
+        <div class="column is-8-tablet is-6-desktop is-4-widescreen">
+            <div class="box">
+                <div class="card-content">
                     <form method="post">
                         {{ form.csrf_token }}
+                        <h2 class="title has-text-centered is-size-3">Log in</h2>
                         <div class="field">
+                            <label class="label">{{ form.username.label }}</label>
                             <div class="control">
-                                {{ form.username(class='input is-large',placeholder='Username') }}
+                                {{ form.username(class='input') }}
                             </div>
                         </div>
                         <div class="field">
+                            <label class="label">{{ form.password.label }}</label>
                             <div class="control">
-                                {{ form.password(class='input is-large',placeholder='Password') }}
+                                {{ form.password(class='input') }}
                             </div>
                         </div>
                         <div class="field">
                             {{ form.remember }}
                             {{ form.remember.label }}
                         </div>
-                        {{ form.submit(class='button is-block is-info is-large is-fullwidth') }}
+                        {{ form.submit(class='button is-block is-info is-medium is-fullwidth') }}
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
-</body>
 
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            &copy; 2019 RoadDB. All rights reserved.
+        </p>
+    </div>
+</footer>
+
+</body>
 </html>
