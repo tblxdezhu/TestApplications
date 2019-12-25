@@ -153,6 +153,12 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route('/my')
+def admin():
+    applications = Application.query.order_by(Application.id.desc())
+    return render_template('my_applications.html', applications=applications)
+
+
 @app.route('/logout')
 @login_required
 def logout():
