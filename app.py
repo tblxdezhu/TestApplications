@@ -58,7 +58,7 @@ class ApplicationForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     jira_ticket = StringField('Jira Ticket', validators=[DataRequired()])
     expect_time = StringField('Except Time')
-    test_data = StringField('Test Data')
+    test_data = TextAreaField('Test Data')
     test_branches = TextAreaField('Test Branches (Unspecified branches:master)')
     compare_branches = TextAreaField('Base Branches')
     notes = TextAreaField('Notes')
