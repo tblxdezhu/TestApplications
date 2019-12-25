@@ -26,12 +26,13 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True)
     role = db.Column(db.String(20))
     team = db.Column(db.String(20))
-    applications = db.relationship('Application')
+    applications = db.relationship('Application', back_populates='author')
 
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.Integer, db.ForeignKey('user.username'), index=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
+    author = db.relationship('User', back_populates='applications')
     description = db.Column(db.Text)
     jira_ticket = db.Column(db.String(100), index=True)
     create_time = db.Column(db.DateTime, index=True)
@@ -71,13 +72,14 @@ def index(page=1):
     if form.validate_on_submit():
         if form.submit.data:
             application = Application(
-                author=current_user.username,
+                author_id=current_user.id,
                 description=form.description.data,
                 jira_ticket=form.jira_ticket.data,
                 expected_time=datetime.strptime(form.expect_time.data, '%Y-%m-%d %H:%M'),
                 test_data=form.test_data.data,
                 create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S')
             )
+            application.author = current_user
             db.session.add(application)
             db.session.commit()
             flash("Submit success", "success")
@@ -154,15 +156,17 @@ def initdb(count):
     fake = Faker()
     for i in range(count):
         username = fake.name()
-        user = User(username=username,role=)
+        user = User(username=username, role="developer", team="SLAM")
         application = Application(
-            author=fake.name(),
+            author_id=user.id,
             description=fake.sentence(),
             jira_ticket=fake.license_plate(),
             expected_time=fake.date_time_this_decade(before_now=True, after_now=False, tzinfo=None),
             test_data=fake.company(),
             create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S')
         )
+        application.author = user
+        db.session.add(user)
         db.session.add(application)
     db.session.commit()
     click.echo("Initialized database")
