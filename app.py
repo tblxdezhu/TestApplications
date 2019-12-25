@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField,RadioField
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField
 from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -12,6 +12,7 @@ from datetime import datetime
 from settings import config
 import os
 from faker import Faker
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 app.config.from_object(config[os.getenv('FLASK_ENV', 'development')])
@@ -19,6 +20,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 
 class User(db.Model, UserMixin):
@@ -90,6 +92,7 @@ def index(page=1):
             application.author = current_user
             db.session.add(application)
             db.session.commit()
+            send_mail(current_user.username, application)
             flash("Submit success", "success")
             return redirect(url_for('index'))
     pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config[
@@ -102,6 +105,16 @@ def get_page(page):
     pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config[
         'APPLICATIONS_PER_PAGE'])
     return render_template('paginations.html', pagination=pagination)
+
+
+def send_mail(sender, application):
+    message = Message(
+        subject=application.jira_ticket,
+        sender=sender + "@ygomi.com",
+        recipients=['zhenxuan.xu@ygomi.com'],
+        body=application.description
+    )
+    mail.send(message)
 
 
 #

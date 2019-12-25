@@ -13,6 +13,10 @@ class BasicConfig(object):
     SECRET_KEY = os.urandom(24)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     APPLICATIONS_PER_PAGE = 3
+    MAIL_SERVER = os.getenv('MAIL_SERVER')
+    MAIL_PORT = os.getenv('MAIL_PORT')
+    MAIL_USE_TLS = True
+    MAIL_DEFAULT_SENDER = ('Test Application', 'test_application@ygomi.com')
 
 
 class DevelopmentConfig(BasicConfig):
