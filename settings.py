@@ -16,7 +16,6 @@ class BasicConfig(object):
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = os.getenv('MAIL_PORT')
     MAIL_USE_TLS = True
-    MAIL_DEFAULT_SENDER = ('Test Application', 'test_application@ygomi.com')
 
 
 class DevelopmentConfig(BasicConfig):
