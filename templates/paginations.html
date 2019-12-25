@@ -10,7 +10,13 @@
                     <div class="media-content">
                         <p class="title is-4">
                             {{ application.jira_ticket }}
-                            <span class="tag is-success">Done</span>
+                            {% if application.status == 'todo' %}
+                                <span class="tag is-info">{{ application.status }}</span>
+                            {% elif application.status == 'done' %}
+                                <span class="tag is-success">{{ application.status }}</span>
+                            {% else %}
+                                <span class="tag is-danger">{{ application.status }}</span>
+                            {% endif %}
                         </p>
                         <p class="subtitle"> @{{ application.author.username }}</p>
                     </div>
@@ -39,9 +45,57 @@
                             </header>
                             <section class="modal-card-body">
                                 <div class="field">
+                                    <label class="label">Owner</label>
+                                    <div class="control">
+                                        {{ application.author.username }}
+                                    </div>
+                                </div>
+                                <div class="field">
                                     <label class="label">Description</label>
                                     <div class="control">
                                         {{ application.description }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Create Time</label>
+                                    <div class="control">
+                                        {{ application.create_time }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Except Time</label>
+                                    <div class="control">
+                                        {{ application.expected_time }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Test Data</label>
+                                    <div class="control">
+                                        {{ application.test_data }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Test Branches</label>
+                                    <div class="control">
+                                        {{ application.branches }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Base Branches</label>
+                                    <div class="control">
+                                        {{ application.compare_branches }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Notes</label>
+                                    <div class="control">
+                                        {{ application.notes }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Test report</label>
+                                    <div class="control">
+                                        {{ application.test_report_link }}
                                     </div>
                                 </div>
                             </section>
