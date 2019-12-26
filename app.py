@@ -71,7 +71,7 @@ class ApplicationForm(FlaskForm):
 class ResultForm(FlaskForm):
     id = StringField('Application id', validators=[DataRequired()])
     link = StringField('Test Report Link / PR')
-    status = SelectField('Status', choices=[(1, 'Pass'), (2, 'Failed')], coerce=int, validators=[DataRequired()])
+    status = SelectField('Status', choices=[('Pass', 'Pass'), ('Failed', 'Failed')], validators=[DataRequired()])
     description = TextAreaField('Description')
     submit = SubmitField('Confirm')
 
@@ -165,10 +165,10 @@ def login():
 def admin():
     form = ResultForm()
     if form.validate_on_submit():
-        print(request.form['id'])
-        # print(form.id.data)
-        print(form.link.data)
-        print(form.status.data)
+        application = Application.query.get(request.form['id'])
+        application.test_report_link = form.link.data
+        application.status = form.status.data
+        db.session.commit()
         return redirect(url_for('admin'))
     applications = Application.query.order_by(Application.id.desc())
     return render_template('my_applications.html', applications=applications, form=form)
