@@ -53,9 +53,64 @@
                         <td>{{ application.except_time }}</td>
                         <td>{{ application.description }}</td>
                         <td>
-                            <button class="button is-small">{{ application.status }}</button>
+                            <button class="button" id="change-{{ application.id }}">{{ application.status }}</button>
                         </td>
                     </tr>
+                    <form method="post" id="post-{{ application.id }}">
+                        {{ form.csrf_token }}
+                        <div class="modal" id="change-modal-{{ application.id }}">
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">{{ application.jira_ticket }}</p>
+                                    <button class="delete" aria-label="close"
+                                            id="change_{{ application.id }}_delete"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <div class="field">
+                                        <label class="label">{{ form.id.label }}</label>
+                                        <div class="control">
+                                            <input class="input" id="id-{{ application.id }}"  name="id" type="text" value="{{ application.id }}" placeholder="{{ application.id }}">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">{{ form.description.label}}</label>
+                                        <div class="control">
+                                            {{ form.description(class='textarea',placeholder='问题描述') }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">{{ form.link.label }}</label>
+                                        <div class="control">
+                                            {{ form.link(class='input') }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Status</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                {{ form.status() }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <footer class="modal-card-foot">
+                                    {{ form.submit(class='button is-success') }}
+                                </footer>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#change-{{ application.id }}").click(function () {
+                                    $("#change-modal-{{ application.id }}").addClass("is-active");
+                                    {#$("#post-{{ application.id }}").reset();#}
+                                });
+                                $("#change_{{ application.id }}_delete").click(function () {
+                                    $("#change-modal-{{ application.id }}").removeClass("is-active");
+                                });
+                            });
+                        </script>
+                    </form>
                 {% endfor %}
                 </tbody>
             </table>

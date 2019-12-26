@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, IntegerField
 from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -66,6 +66,14 @@ class ApplicationForm(FlaskForm):
     notes = TextAreaField('Notes')
     team = SelectField('Team', choices=[(1, 'SLAM'), (2, 'SVM')], coerce=int)
     submit = SubmitField('Submit')
+
+
+class ResultForm(FlaskForm):
+    id = StringField('Application id', validators=[DataRequired()])
+    link = StringField('Test Report Link / PR')
+    status = SelectField('Status', choices=[(1, 'Pass'), (2, 'Failed')], coerce=int, validators=[DataRequired()])
+    description = TextAreaField('Description')
+    submit = SubmitField('Confirm')
 
 
 @login_manager.user_loader
@@ -153,10 +161,17 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/my')
+@app.route('/my', methods=['POST', 'GET'])
 def admin():
+    form = ResultForm()
+    if form.validate_on_submit():
+        print(request.form['id'])
+        # print(form.id.data)
+        print(form.link.data)
+        print(form.status.data)
+        return redirect(url_for('admin'))
     applications = Application.query.order_by(Application.id.desc())
-    return render_template('my_applications.html', applications=applications)
+    return render_template('my_applications.html', applications=applications, form=form)
 
 
 @app.route('/logout')
