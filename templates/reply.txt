@@ -1,11 +1,8 @@
 Hello {{ application.author.username }},
 
-I have completed the test application you submitted, the test conclusion is {{ application.status }},
+I have completed the test application http://127.0.0.1:9999/applications/{{ application_id }} you submitted, the test conclusion is {{ application.status }},
 
 and the test report link / PR is as follows: {{ application.test_report_link }}
-
-
-Enjoy :)
 
 
 This email was sent from Test Application System.

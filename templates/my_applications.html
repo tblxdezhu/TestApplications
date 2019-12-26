@@ -46,7 +46,7 @@
                 <tbody>
                 {% for application in applications %}
                     <tr>
-                        <th>{{ application.id }}</th>
+                        <th><a href="/applications/{{ application.id }}">{{ application.id }}</a></th>
                         <td>{{ application.create_time }}</td>
                         <td>{{ application.author.username }}</td>
                         <td>{{ application.jira_ticket }}</td>

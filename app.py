@@ -164,6 +164,12 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route('/applications/<int:application_id>')
+def get_application(application_id):
+    application = Application.query.get(application_id)
+    return render_template('application.html', application=application)
+
+
 @app.route('/management', methods=['POST', 'GET'])
 @login_required
 def admin():

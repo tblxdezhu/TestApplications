@@ -1,6 +1,6 @@
 Hello {{ name }},
 
-I submitted a test application : http://127.0.0.1:9999/management and application id is {{ application_id }}.
+I submitted a test application : http://127.0.0.1:9999/applications/{{ application_id }}.
 
 
 Enjoy :)
