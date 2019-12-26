@@ -100,7 +100,7 @@ def index(page=1):
             application.author = current_user
             db.session.add(application)
             db.session.commit()
-            send_mail(application)
+            send_mail(mail_type='application', application=application)
             flash("Submit success", "success")
             return redirect(url_for('index'))
     pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config[
@@ -115,13 +115,16 @@ def get_page(page):
     return render_template('paginations.html', pagination=pagination)
 
 
-def send_mail(application, msg=""):
+def send_mail(mail_type, application):
     message = Message(
         subject=application.jira_ticket,
         sender=current_user.username + "@ygomi.com",
         recipients=['zhenxuan.xu@ygomi.com'],
-        body=application.description + msg
     )
+    if mail_type == 'reply':
+        message.body = render_template('reply.txt', application=application)
+    else:
+        message.body = render_template('application.txt', name=current_user.username, application_id=application.id)
     mail.send(message)
 
 
@@ -171,7 +174,7 @@ def admin():
         application.status = form.status.data
         db.session.commit()
         flash("Successfully modified", 'success')
-        send_mail(application, msg="Your test application has been tested and the status is {}".format(form.status.data))
+        send_mail(mail_type='reply', application=application)
         return redirect(url_for('admin'))
     applications = Application.query.order_by(Application.id.desc())
     return render_template('my_applications.html', applications=applications, form=form)
