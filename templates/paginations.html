@@ -9,7 +9,7 @@
                 <div class="media">
                     <div class="media-content">
                         <p class="title is-4">
-                            {{ application.jira_ticket }}
+                        <a href="/applications/{{ application.id }}">{{ application.jira_ticket }}</a>
                             {% if application.status == 'todo' %}
                                 <span class="tag is-info">{{ application.status }}</span>
                             {% elif application.status == 'Pass' %}
