@@ -12,7 +12,7 @@
                             {{ application.jira_ticket }}
                             {% if application.status == 'todo' %}
                                 <span class="tag is-info">{{ application.status }}</span>
-                            {% elif application.status == 'done' %}
+                            {% elif application.status == 'Pass' %}
                                 <span class="tag is-success">{{ application.status }}</span>
                             {% else %}
                                 <span class="tag is-danger">{{ application.status }}</span>
