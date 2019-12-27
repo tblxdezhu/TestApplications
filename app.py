@@ -13,9 +13,10 @@ from settings import config
 import os
 from faker import Faker
 from flask_mail import Mail, Message
+from default_settings import DefaultConfig
 
 app = Flask(__name__)
-app.config.from_object(config[os.getenv('FLASK_ENV', 'development')])
+app.config.from_object(config[DefaultConfig.FLASK_ENV])
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.init_app(app)
@@ -195,10 +196,9 @@ def logout():
 
 
 def auth_(form):
-    if os.getenv("FLASK_ENV") == 'development':
+    if app.config['FLASK_ENV'] == 'development':
         return make_response('', 200)
-    return requests.get(url=os.getenv('RESTFUL_API_URL'),
-                        auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
+    return requests.get(url=app.config['RESTFUL_API_URL'], auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
 
 
 @app.cli.command()

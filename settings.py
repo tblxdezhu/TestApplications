@@ -6,26 +6,20 @@
 # @Software: Pycharm professional
 
 import os
+from default_settings import DefaultConfig
 
 
-class BasicConfig(object):
-    basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    SECRET_KEY = os.urandom(24)
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    APPLICATIONS_PER_PAGE = 3
-    MAIL_SERVER = os.getenv('MAIL_SERVER')
-    MAIL_PORT = os.getenv('MAIL_PORT')
-    MAIL_USE_TLS = True
-
-
-class DevelopmentConfig(BasicConfig):
+class DevelopmentConfig(DefaultConfig):
     SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(os.path.join(os.path.dirname(__file__), 'development.db'))
 
 
-class ProductionConfig(BasicConfig):
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}:{}/{}" \
-        .format(os.getenv('DATABASE_USERNAME'), os.getenv('DATABASE_PASSWORD'),
-                os.getenv('DATABASE_ADDRESS'), os.getenv('DATABASE_PORT'), os.getenv('DATABASE_NAME'))
+class ProductionConfig(DefaultConfig):
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}:{}/{}".format(
+        DefaultConfig.DATABASE_USERNAME,
+        DefaultConfig.DATABASE_PASSWORD,
+        DefaultConfig.DATABASE_ADDRESS,
+        DefaultConfig.DATABASE_PORT,
+        DefaultConfig.DATABASE_NAME)
 
 
 config = {
