@@ -3,24 +3,26 @@ from flask_login import LoginManager, UserMixin, login_user, current_user, login
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, IntegerField
 from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 import requests
 from requests.auth import HTTPBasicAuth
 import pymysql
 import click
 from datetime import datetime
-from settings import config
+# from settings import config
 import os
 from faker import Faker
 from flask_mail import Mail, Message
+#
+# app = Flask(__name__)
+# app.config.from_object(config[os.getenv('FLASK_ENV', 'development')])
+# login_manager = LoginManager(app)
+# login_manager.login_view = 'login'
+# login_manager.init_app(app)
+# db = SQLAlchemy(app)
+# mail = Mail(app)
 
-app = Flask(__name__)
-app.config.from_object(config[os.getenv('FLASK_ENV', 'development')])
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-login_manager.init_app(app)
-db = SQLAlchemy(app)
-mail = Mail(app)
+from . import app, db, mail, login_manager
 
 
 class User(db.Model, UserMixin):
