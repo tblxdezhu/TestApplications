@@ -10,6 +10,7 @@ from default_settings import DefaultConfig
 
 
 class DevelopmentConfig(DefaultConfig):
+    SERVER_ADDRESS = "127.0.0.1"
     SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(os.path.join(os.path.dirname(__file__), 'development.db'))
 
 

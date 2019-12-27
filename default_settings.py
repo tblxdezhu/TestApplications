@@ -7,6 +7,8 @@
 
 
 class DefaultConfig(object):
+    FLASK_ENV = "production"
+
     SERVER_ADDRESS = "10.69.140.184"
     DATABASE_USERNAME = "root"
     DATABASE_PASSWORD = "test1234"
@@ -16,7 +18,6 @@ class DefaultConfig(object):
     MAIL_SERVER = "mail-chengdu.ygomi.net"
     MAIL_PORT = "25"
     MAIL_USE_TLS = True
-    FLASK_ENV = "production"
     FLASK_RUN_HOST = "0.0.0.0"
     FLASK_RUN_PORT = 9999
     DATABASE_NAME = "test_application"

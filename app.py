@@ -123,9 +123,9 @@ def send_mail(mail_type, application):
         recipients=['zhenxuan.xu@ygomi.com'],
     )
     if mail_type == 'reply':
-        message.body = render_template('reply.txt', application=application)
+        message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
     else:
-        message.body = render_template('application.txt', name=current_user.username, application_id=application.id)
+        message.body = render_template('application.txt', name=current_user.username, application=application, server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
     mail.send(message)
 
 
@@ -230,4 +230,4 @@ def initdb(count):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=app.config['FLASK_RUN_HOST'], port=app.config['FLASK_RUN_PORT'])
