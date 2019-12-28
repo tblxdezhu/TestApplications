@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, IntegerField
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, \
+    IntegerField
 from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -65,7 +66,7 @@ class ApplicationForm(FlaskForm):
     test_branches = TextAreaField('Test Branches (Unspecified branches:master)')
     compare_branches = TextAreaField('Base Branches')
     notes = TextAreaField('Notes')
-    team = SelectField('Team', choices=[(1, 'SLAM'), (2, 'SVM')], coerce=int)
+    team = SelectField('Team', choices=[('SLAM', 'SLAM'), ('SVM', 'SVM')])
     submit = SubmitField('Submit')
 
 
@@ -99,6 +100,7 @@ def index(page=1):
                 notes=form.notes.data
             )
             application.author = current_user
+            application.author.team = form.team.data
             db.session.add(application)
             db.session.commit()
             send_mail(mail_type='application', application=application)
@@ -117,16 +119,28 @@ def get_page(page):
 
 
 def send_mail(mail_type, application):
+    current_user_email = current_user.username + "@ygomi.com",
     message = Message(
         subject=application.jira_ticket,
-        sender=current_user.username + "@ygomi.com",
-        recipients=['zhenxuan.xu@ygomi.com'],
+        sender=current_user_email[0],
+        cc=['zhixun.xia@ygomi.com', 'ming.lei@ygomi.com', 'nan.jia@ygomi.com']
     )
-    if mail_type == 'reply':
-        message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
+    if application.author.team == 'SLAM':
+        message.recipients = ['zhenxuan.xu@ygomi.com']
+        message.cc.append('xin.li@ygomi.com')
     else:
-        message.body = render_template('application.txt', name=current_user.username, application=application, server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
+        message.recipients = ['xin.li@ygomi.com']
+        message.cc.append('zhenxuan.xu@ygomi.com')
+    if mail_type == 'reply':
+        message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'],
+                                       port=app.config['FLASK_RUN_PORT'])
+    else:
+        message.body = render_template('application.txt', name=current_user.username, application=application,
+                                       server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
     mail.send(message)
+    # print("sender: ", message.sender)
+    # print("recipients:  ", message.recipients)
+    # print("cc:  ", message.cc)
 
 
 #
@@ -198,7 +212,8 @@ def logout():
 def auth_(form):
     if app.config['FLASK_ENV'] == 'development':
         return make_response('', 200)
-    return requests.get(url=app.config['RESTFUL_API_URL'], auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
+    return requests.get(url=app.config['RESTFUL_API_URL'],
+                        auth=HTTPBasicAuth(str(form.username.data), str(form.password.data)))
 
 
 @app.cli.command()
