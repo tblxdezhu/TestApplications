@@ -24,6 +24,7 @@
                 <thead>
                 <tr>
                     <th>id</th>
+                    <th>Team</th>
                     <th>Create Time</th>
                     <th>Owner</th>
                     <th>Jira Ticket</th>
@@ -36,6 +37,7 @@
                 {% for application in applications %}
                     <tr>
                         <th><a href="/applications/{{ application.id }}">{{ application.id }}</a></th>
+                        <td>{{ application.author.team }}</td>
                         <td>{{ application.create_time }}</td>
                         <td>{{ application.author.username }}</td>
                         <td>{{ application.jira_ticket }}</td>
@@ -43,11 +45,14 @@
                         <td>{{ application.description }}</td>
                         <td>
                             {% if application.status == 'Pass' %}
-                                <button class="button is-success" id="change-{{ application.id }}">{{ application.status }}</button>
+                                <button class="button is-success"
+                                        id="change-{{ application.id }}">{{ application.status }}</button>
                             {% elif application.status == 'Failed' %}
-                                <button class="button is-danger" id="change-{{ application.id }}">{{ application.status }}</button>
+                                <button class="button is-danger"
+                                        id="change-{{ application.id }}">{{ application.status }}</button>
                             {% else %}
-                                <button class="button" id="change-{{ application.id }}">{{ application.status }}</button>
+                                <button class="button"
+                                        id="change-{{ application.id }}">{{ application.status }}</button>
                             {% endif %}
                         </td>
                     </tr>
@@ -75,7 +80,8 @@
                                     <div class="field">
                                         <label class="label">{{ form.id.label }}</label>
                                         <div class="control">
-                                            <input class="input" id="id-{{ application.id }}" name="id" type="text" value="{{ application.id }}" placeholder="{{ application.id }}">
+                                            <input class="input" id="id-{{ application.id }}" name="id" type="text"
+                                                   value="{{ application.id }}" placeholder="{{ application.id }}">
                                         </div>
                                     </div>
                                     <div class="field">

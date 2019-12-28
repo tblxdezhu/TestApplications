@@ -125,22 +125,25 @@ def send_mail(mail_type, application):
         sender=current_user_email[0],
         cc=['zhixun.xia@ygomi.com', 'ming.lei@ygomi.com', 'nan.jia@ygomi.com']
     )
-    if application.author.team == 'SLAM':
-        message.recipients = ['zhenxuan.xu@ygomi.com']
-        message.cc.append('xin.li@ygomi.com')
-    else:
-        message.recipients = ['xin.li@ygomi.com']
-        message.cc.append('zhenxuan.xu@ygomi.com')
+
     if mail_type == 'reply':
+        message.recipients = [application.author.username + "@ygomi.com"]
+        message.cc.extend(['zhenxuan.xu@ygomi.com', 'xin.li@ygomi.com'])
         message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'],
                                        port=app.config['FLASK_RUN_PORT'])
     else:
+        if application.author.team == 'SLAM':
+            message.recipients = ['zhenxuan.xu@ygomi.com']
+            message.cc.append('xin.li@ygomi.com')
+        else:
+            message.recipients = ['xin.li@ygomi.com']
+            message.cc.append('zhenxuan.xu@ygomi.com')
         message.body = render_template('application.txt', name=current_user.username, application=application,
                                        server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
-    mail.send(message)
-    # print("sender: ", message.sender)
-    # print("recipients:  ", message.recipients)
-    # print("cc:  ", message.cc)
+    # mail.send(message)
+    print("sender: ", message.sender)
+    print("recipients:  ", message.recipients)
+    print("cc:  ", message.cc)
 
 
 #
@@ -188,6 +191,9 @@ def get_application(application_id):
 @app.route('/management', methods=['POST', 'GET'])
 @login_required
 def admin():
+    if not current_user.username == 'zhenxuan.xu' or current_user.username == 'xin.li':
+        flash('You are not authorized to access this page', category='error')
+        return redirect(url_for('index'))
     form = ResultForm()
     if form.validate_on_submit():
         application = Application.query.get(request.form['id'])
@@ -199,6 +205,11 @@ def admin():
         return redirect(url_for('admin'))
     applications = Application.query.order_by(Application.id.desc())
     return render_template('my_applications.html', applications=applications, form=form)
+
+
+@app.route('/version')
+def get_version():
+    return render_template('release.html')
 
 
 @app.route('/logout')
