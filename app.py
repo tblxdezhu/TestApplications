@@ -184,8 +184,11 @@ def login():
 
 @app.route('/applications/<int:application_id>')
 def get_application(application_id):
-    application = Application.query.get(application_id)
-    return render_template('application.html', application=application)
+    try:
+        application = Application.query.get(application_id)
+        return render_template('application.html', application=application)
+    except Exception:
+        return render_template('404.html'), 404
 
 
 @app.route('/management', methods=['POST', 'GET'])
