@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify
+from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify, current_app
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, \
     IntegerField
@@ -144,23 +144,6 @@ def send_mail(mail_type, application):
     print("sender: ", message.sender)
     print("recipients:  ", message.recipients)
     print("cc:  ", message.cc)
-
-
-#
-# @app.route('/page/<string:username>/<int:page>')
-# def get_my_page(username, page=1):
-#     print("username", username)
-#     pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
-#     return render_template('paginations.html', pagination=pagination)
-#
-#
-# @app.route('/history/<string:username>/<int:page>', methods=['GET'])
-# @app.route('/history/<string:username>', methods=['GET'])
-# @app.route('/history')
-# def get_history(username, page=1):
-#     print("username", username)
-#     pagination = Application.query.filter_by(author=username).paginate(page, app.config['APPLICATIONS_PER_PAGE'])
-#     return render_template('paginations.html', pagination=pagination)
 
 
 @app.route('/login', methods=['POST', 'GET'])
