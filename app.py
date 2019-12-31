@@ -220,6 +220,11 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 def auth_(form):
     if app.config['FLASK_ENV'] == 'development':
         return make_response('', 200)
