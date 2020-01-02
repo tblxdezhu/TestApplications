@@ -304,6 +304,7 @@ table {
 td,
 th {
   padding: 0;
+  width: 30%;
 }
 
 td:not([align]),

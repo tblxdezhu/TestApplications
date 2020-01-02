@@ -30,18 +30,18 @@
                     {% endif %}
                 </div>
                 <div class="content article-body">
-                    <h2>1.概述</h2>
-                    <h4>1.1 发起测试的原因/测试功能</h4>
-                    <p>{{ application.description }}</p>
+                    <h2><strong>1.概述</strong></h2>
+                    <h4><strong>1.1 发起测试的原因/测试功能</strong></h4>
+                    <p style="text-indent:2em;">{{ application.description }}</p>
                     <h4>1.2 本测试对应的 JIRA Ticket</h4>
-                    <p>{{ application.jira_ticket }}</p>
+                    <p style="text-indent:2em;">{{ application.jira_ticket }}</p>
                     <h4>1.3 耗时估计/期望完成时间</h4>
-                    <p>{{ application.expected_time }}</p>
+                    <p style="text-indent:2em;">{{ application.expected_time }}</p>
                     <h4>1.4 测试数据</h4>
-                    <p>{{ application.test_data }}</p>
+                    <p style="text-indent:2em;">{{ application.test_data }}</p>
                     <h2>2.代码使用</h2>
                     <h4>2.1 测试分支</h4>
-                    <table class="table">
+                    <table class="table is-hoverable">
                         <thead>
                         <tr>
                             <th>Repositories</th>
@@ -50,19 +50,19 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <th>algorithm_common</th>
+                            <td>algorithm_common</td>
                             <td>bugfix/RDB-47291-svm-core-dump-occures-by-using-vtd-data</td>
                         </tr>
                         <tr>
-                            <th>algorithm_common_slam</th>
+                            <td>algorithm_common_slam</td>
                             <td>bugfix/RDB-47291-svm-core-dump-occures-by-using-vtd-data</td>
                         </tr>
                         </tbody>
                     </table>
                     <h4>2.2 配置，注意事项</h4>
-                    <p>{{ application.notes }}</p>
+                    <p style="text-indent:2em;">{{ application.notes }}</p>
                     <h4>2.3 对比分支</h4>
-                    <table class="table">
+                    <table class="table is-hoverable">
                         <thead>
                         <tr>
                             <th>Repositories</th>
@@ -71,10 +71,12 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <th>algorithm_common</th>
+                            <td>algorithm_common</td>
+                            <td>master</td>
                         </tr>
                         <tr>
-                            <th>algorithm_common_slam</th>
+                            <td>algorithm_common_slam</td>
+                            <td>master</td>
                         </tr>
                         </tbody>
                     </table>
