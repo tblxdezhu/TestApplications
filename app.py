@@ -199,7 +199,7 @@ def admin():
     return render_template('my_applications.html', applications=applications, form=form)
 
 
-@app.route('/version')
+# @app.route('/version')
 def get_version():
     return render_template('release.html')
 
