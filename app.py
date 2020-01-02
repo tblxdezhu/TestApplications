@@ -63,7 +63,13 @@ class ApplicationForm(FlaskForm):
     jira_ticket = StringField('Jira Ticket', validators=[DataRequired()])
     expect_time = StringField('Except Time')
     test_data = TextAreaField('Test Data')
-    test_branches = TextAreaField('Test Branches (Unspecified branches:master)')
+    # test_branches = TextAreaField('Test Branches')
+    common = StringField('common', default='master')
+    algorithm_common = StringField('core/algorithm_common', default='master')
+    algorithm_common_slam = StringField('core/algorithm_common_slam', default='master')
+    algorithm_vehicle_offlineslam = StringField('core/algorithm_vehicle_offlineslam', default='master')
+    algorithm_vehicle_svm = StringField('core/algorithm_vehicle_svm', default='master')
+    vehicle = StringField('core/vehicle', default='master')
     compare_branches = TextAreaField('Base Branches')
     notes = TextAreaField('Notes')
     team = SelectField('Team', choices=[('SLAM', 'SLAM'), ('SVM', 'SVM')])
@@ -95,7 +101,7 @@ def index(page=1):
                 expected_time=datetime.strptime(form.expect_time.data, '%Y-%m-%d %H:%M'),
                 test_data=form.test_data.data,
                 create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S'),
-                branches=form.test_branches.data,
+                branches=str([form.common.data, form.algorithm_common.data, form.algorithm_common_slam.data, form.algorithm_vehicle_svm.data, form.vehicle.data]),
                 compare_branches=form.compare_branches.data,
                 notes=form.notes.data
             )

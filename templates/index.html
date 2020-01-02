@@ -139,9 +139,21 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">{{ form.test_branches.label }}</label>
+                        <label class="label">Test Branches</label>
                         <div class="control">
-                            <textarea class="textarea" id="test_branches" name="test_branches" placeholder="">algorithm_common: &#10;algorithm_common_slam: &#10;algorithm_vehicle_svm:&#10;</textarea>
+                            <label class="label">{{ form.common.label }}</label>
+                            {{ form.common(class='input') }}
+                            <label class="label">{{ form.algorithm_common.label }}</label>
+                            {{ form.algorithm_common(class='input') }}
+                            {% if current_user.team == 'SLAM' %}
+                                <label class="label">{{ form.algorithm_vehicle_offlineslam.label }}</label>
+                                {{ form.algorithm_vehicle_offlineslam(class='input') }}
+                            {% else %}
+                                <label class="label">{{ form.algorithm_vehicle_svm.label }}</label>
+                                {{ form.algorithm_vehicle_svm(class='input') }}
+                            {% endif %}
+                            <label class="label">{{ form.vehicle.label }}</label>
+                            {{ form.vehicle(class='input') }}
                         </div>
                     </div>
                     <div class="field">
