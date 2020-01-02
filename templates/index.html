@@ -102,7 +102,15 @@
                         <label class="label">Team</label>
                         <div class="control">
                             <div class="select">
-                                {{ form.team() }}
+                                <select id="team" name="team">
+                                    {% if current_user.team == 'SLAM' %}
+                                        <option selected value="SLAM">SLAM</option>
+                                        <option value="SVM">SVM</option>
+                                    {% else %}
+                                        <option value="SLAM">SLAM</option>
+                                        <option selected value="SVM">SVM</option>
+                                    {% endif %}
+                                </select>
                             </div>
                         </div>
                     </div>

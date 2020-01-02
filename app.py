@@ -86,7 +86,6 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def index(page=1):
     form = ApplicationForm()
-    form.team.data = current_user.team
     if form.validate_on_submit():
         if form.submit.data:
             application = Application(
