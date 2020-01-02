@@ -18,7 +18,7 @@
                     <div class="media-content has-text-centered">
                         <br>
                         <p class="title article-title">{{ application.jira_ticket }}</p>
-                        <div class="tags has-addons level-item">
+                        <div class="tags has-addons level-item are-medium">
                             <span class="tag is-rounded is-info">@{{ application.author.username }}</span>
                             <span class="tag is-rounded">{{ application.create_time }}</span>
                         </div>
@@ -41,7 +41,7 @@
                     <p style="text-indent:2em;">{{ application.test_data }}</p>
                     <h2>2.代码使用</h2>
                     <h4>2.1 测试分支</h4>
-                    <table class="table is-hoverable">
+                    <table class="table is-hoverable" style="text-indent:2em;">
                         <thead>
                         <tr>
                             <th>Repositories</th>
@@ -62,7 +62,7 @@
                     <h4>2.2 配置，注意事项</h4>
                     <p style="text-indent:2em;">{{ application.notes }}</p>
                     <h4>2.3 对比分支</h4>
-                    <table class="table is-hoverable">
+                    <table class="table is-hoverable" style="text-indent:2em;">
                         <thead>
                         <tr>
                             <th>Repositories</th>
