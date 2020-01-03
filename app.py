@@ -126,7 +126,7 @@ def get_branch(_request):
     }]
     base_branches = [{
         'repo': 'others',
-        'branch': 'master' if _request.form['others_basebranch'] is None else _request.form['others_basebranch']
+        'branch': _request.form['others_basebranch'] if _request.form['others_basebranch'] else 'master'
     }]
     for _data in _request.form:
         if 'test_branch' in _data:
