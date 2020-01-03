@@ -179,7 +179,12 @@
                                     select1.setAttribute("name", "test_repo" + rows);
                                     div1.setAttribute("class", "select");
                                     select1.add(new Option('common', 'common'));
+                                    select1.add(new Option('vehicle', 'vehicle'));
                                     select1.add(new Option('algorithm_common', 'algorithm_common'));
+                                    select1.add(new Option('algorithm_common_slam', 'algorithm_common_slam'));
+                                    select1.add(new Option('algorithm_vehicle_offlineslam', 'algorithm_vehicle_offlineslam'));
+                                    select1.add(new Option('algorithm_vehicle_svm', 'algorithm_vehicle_svm'));
+
                                     input1.id = "test_branch" + rows;
                                     input1.setAttribute("class", "input");
                                     input1.setAttribute("name", "test_branch" + rows);
@@ -193,12 +198,12 @@
                             </script>
                         </div>
                     </div>
-{#                    <div class="field">#}
-{#                        <label class="label">{{ form.compare_branches.label }}</label>#}
-{#                        <div class="control">#}
-{#                            {{ form.compare_branches(class='textarea',placeholder='未指明默认使用master分支') }}#}
-{#                        </div>#}
-{#                    </div>#}
+                    {#                    <div class="field">#}
+                    {#                        <label class="label">{{ form.compare_branches.label }}</label>#}
+                    {#                        <div class="control">#}
+                    {#                            {{ form.compare_branches(class='textarea',placeholder='未指明默认使用master分支') }}#}
+                    {#                        </div>#}
+                    {#                    </div>#}
                     <div class="field">
                         <label class="label">{{ form.compare_branches.label }}</label>
                         <div class="control">
@@ -240,7 +245,11 @@
                                     select1.setAttribute("name", "base_repo" + rows);
                                     div1.setAttribute("class", "select");
                                     select1.add(new Option('common', 'common'));
+                                    select1.add(new Option('vehicle', 'vehicle'));
                                     select1.add(new Option('algorithm_common', 'algorithm_common'));
+                                    select1.add(new Option('algorithm_common_slam', 'algorithm_common_slam'));
+                                    select1.add(new Option('algorithm_vehicle_offlineslam', 'algorithm_vehicle_offlineslam'));
+                                    select1.add(new Option('algorithm_vehicle_svm', 'algorithm_vehicle_svm'));
                                     input1.id = "base_branch" + rows;
                                     input1.setAttribute("class", "input");
                                     input1.setAttribute("name", "base_branch" + rows);
