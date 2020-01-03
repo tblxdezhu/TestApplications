@@ -11,7 +11,7 @@
                         <p class="title is-4">
                         <a href="/applications/{{ application.id }}">{{ application.jira_ticket }}</a>
                             {% if application.status == 'todo' %}
-                                <span class="tag is-info">{{ application.status }}</span>
+                                <span class="tag">{{ application.status }}</span>
                             {% elif application.status == 'Pass' %}
                                 <span class="tag is-success">{{ application.status }}</span>
                             {% else %}
