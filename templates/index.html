@@ -141,19 +141,61 @@
                     <div class="field">
                         <label class="label">Test Branches</label>
                         <div class="control">
-                            <label class="label">{{ form.common.label }}</label>
-                            {{ form.common(class='input') }}
-                            <label class="label">{{ form.algorithm_common.label }}</label>
-                            {{ form.algorithm_common(class='input') }}
-                            {% if current_user.team == 'SLAM' %}
-                                <label class="label">{{ form.algorithm_vehicle_offlineslam.label }}</label>
-                                {{ form.algorithm_vehicle_offlineslam(class='input') }}
-                            {% else %}
-                                <label class="label">{{ form.algorithm_vehicle_svm.label }}</label>
-                                {{ form.algorithm_vehicle_svm(class='input') }}
-                            {% endif %}
-                            <label class="label">{{ form.vehicle.label }}</label>
-                            {{ form.vehicle(class='input') }}
+                            <table class="table is-hoverable" id="branch_table">
+                                <thead>
+                                <tr>
+                                    <th>Repo</th>
+                                    <th>Branch</th>
+                                    <th>
+                                        <button class="button is-info" type="button" id="add_repo">add</button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="branch_body">
+                                <tr>
+                                    <td>
+                                        <button class="button" type="button">Others</button>
+                                    </td>
+                                    <td>
+                                        <input class="input">
+                                    </td>
+
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                            <script type="text/javascript">
+                                var rowWhere = 0;
+                                document.getElementById('add_repo').onclick = function () {
+                                    var table = document.getElementById("branch_table");
+                                    var tbody = document.getElementById("branch_body");
+                                    var rows = table.rows.length + 1;
+                                    var div1 = document.createElement('div');
+                                    var select1 = document.createElement('select');
+                                    var input1 = document.createElement('input');
+                                    var tr = tbody.insertRow(rowWhere);
+                                    rowWhere = rowWhere + 1;
+                                    var td2 = document.createElement('td');
+                                    var td3 = document.createElement('td');
+                                    select1.id = "repo" + rows;
+                                    div1.setAttribute("class", "select");
+                                    select1.add(new Option('common', 'common'));
+                                    select1.add(new Option('algorithm_common', 'algorithm_common'));
+                                    select1.add(new Option('others', 'others'));
+
+                                    input1.id = "xws.qs" + rows;
+                                    input1.setAttribute("class", "input");
+                                    input1.setAttribute("name", "xws.qs" + rows);
+                                    input1.setAttribute("placeholder", "");
+                                    div1.appendChild(select1);
+                                    td2.appendChild(div1);
+                                    td3.appendChild(input1);
+                                    tr.appendChild(td2);
+                                    tr.appendChild(td3);
+                                };
+
+                            </script>
                         </div>
                     </div>
                     <div class="field">
