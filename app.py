@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash, mak
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, \
     IntegerField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, URL, InputRequired
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
 import requests
@@ -41,11 +41,11 @@ class Application(db.Model):
     description = db.Column(db.Text)
     jira_ticket = db.Column(db.String(100), index=True)
     create_time = db.Column(db.DateTime, index=True)
-    expected_time = db.Column(db.DateTime)
+    expected_time = db.Column(db.DateTime, nullable=True)
     test_data = db.Column(db.Text)
     branches = db.Column(db.Text)
     notes = db.Column(db.Text, default="default")
-    compare_branches = db.Column(db.String(100), default="master")
+    compare_branches = db.Column(db.Text)
     if_report = db.Column(db.Boolean, default=True)
     status = db.Column(db.String(20), default="todo")
     test_report_link = db.Column(db.String(100))
@@ -87,6 +87,7 @@ def index(page=1):
     form = ApplicationForm()
     if form.validate_on_submit():
         if form.submit.data:
+            branches = get_branch(request)
             application = Application(
                 author_id=current_user.id,
                 description=form.description.data,
@@ -94,8 +95,8 @@ def index(page=1):
                 expected_time=datetime.strptime(form.expect_time.data, '%Y-%m-%d %H:%M'),
                 test_data=form.test_data.data,
                 create_time=datetime.strptime(datetime.now().strftime('%b-%d-%Y %H:%M:%S'), '%b-%d-%Y %H:%M:%S'),
-                branches=get_branch(request),
-                compare_branches=form.compare_branches.data,
+                branches=branches[0],
+                compare_branches=branches[1],
                 notes=form.notes.data
             )
             application.author = current_user
@@ -105,6 +106,7 @@ def index(page=1):
             send_mail(mail_type='application', application=application)
             flash("Submit success", "success")
             return redirect(url_for('index'))
+
     pagination = Application.query.order_by(Application.create_time.desc()).paginate(page, app.config[
         'APPLICATIONS_PER_PAGE'])
     return render_template('index.html', form=form, pagination=pagination)
@@ -118,18 +120,28 @@ def get_page(page):
 
 
 def get_branch(_request):
-    branches = [{
+    test_branches = [{
         'repo': 'others',
         'branch': _request.form['others_branch']
+    }]
+    base_branches = [{
+        'repo': 'others',
+        'branch': 'master' if _request.form['others_basebranch'] is None else _request.form['others_basebranch']
     }]
     for _data in _request.form:
         if 'test_branch' in _data:
             i = int(_data[-1])
-            branches.append({
+            test_branches.append({
                 'repo': _request.form['test_repo{}'.format(i)],
                 'branch': _request.form['test_branch{}'.format(i)]
             })
-    return str(branches)
+        if 'base_branch' in _data:
+            i = int(_data[-1])
+            base_branches.append({
+                'repo': _request.form['base_repo{}'.format(i)],
+                'branch': _request.form['base_branch{}'.format(i)]
+            })
+    return str(test_branches), str(base_branches)
 
 
 def send_mail(mail_type, application):
@@ -184,7 +196,8 @@ def get_application(application_id):
     try:
         application = Application.query.get(application_id)
         branches = eval(application.branches)
-        return render_template('application.html', application=application, branches=branches)
+        base_branches = eval(application.compare_branches)
+        return render_template('application.html', application=application, branches=branches, base_branches=base_branches)
     except Exception as e:
         print(e)
         return render_template('404.html'), 404

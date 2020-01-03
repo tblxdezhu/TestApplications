@@ -123,7 +123,7 @@
                     <div class="field">
                         <label class="label">{{ form.jira_ticket.label }}</label>
                         <div class="control">
-                            {{ form.jira_ticket(class='input',placeholder='本测试对应的 JIRA Ticket') }}
+                            {{ form.jira_ticket(class='input',placeholder='本测试对应的 JIRA Ticket,只需填入Jira号，比如 RDB-6666') }}
                         </div>
                     </div>
                     <div class="field">
@@ -147,7 +147,7 @@
                                     <th>Repo</th>
                                     <th>Branch</th>
                                     <th>
-                                        <button class="button is-info" type="button" id="add_repo">add</button>
+                                        <button class="button is-info is-small" type="button" id="add_repo">add</button>
                                     </th>
                                 </tr>
                                 </thead>
@@ -190,14 +190,68 @@
                                     tr.appendChild(td2);
                                     tr.appendChild(td3);
                                 };
-
                             </script>
                         </div>
                     </div>
+{#                    <div class="field">#}
+{#                        <label class="label">{{ form.compare_branches.label }}</label>#}
+{#                        <div class="control">#}
+{#                            {{ form.compare_branches(class='textarea',placeholder='未指明默认使用master分支') }}#}
+{#                        </div>#}
+{#                    </div>#}
                     <div class="field">
                         <label class="label">{{ form.compare_branches.label }}</label>
                         <div class="control">
-                            {{ form.compare_branches(class='textarea',placeholder='未指明默认使用master分支') }}
+                            <table class="table is-hoverable" id="base_branch_table">
+                                <thead>
+                                <tr>
+                                    <th>Repo</th>
+                                    <th>Branch</th>
+                                    <th>
+                                        <button class="button is-info is-small" type="button" id="add_base_repo">add</button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="base_branch_body">
+                                <tr>
+                                    <td>
+                                        <button class="button" type="button">Others</button>
+                                    </td>
+                                    <td>
+                                        <input class="input" type="text" name="others_basebranch" placeholder="不填默认使用master">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <script type="text/javascript">
+                                var rowWherebase = 0;
+                                document.getElementById('add_base_repo').onclick = function () {
+                                    var table = document.getElementById("base_branch_table");
+                                    var tbody = document.getElementById("base_branch_body");
+                                    var rows = table.rows.length + 1;
+                                    var div1 = document.createElement('div');
+                                    var select1 = document.createElement('select');
+                                    var input1 = document.createElement('input');
+                                    var tr = tbody.insertRow(rowWherebase);
+                                    rowWherebase = rowWherebase + 1;
+                                    var td2 = document.createElement('td');
+                                    var td3 = document.createElement('td');
+                                    select1.id = "base_repo" + rows;
+                                    select1.setAttribute("name", "base_repo" + rows);
+                                    div1.setAttribute("class", "select");
+                                    select1.add(new Option('common', 'common'));
+                                    select1.add(new Option('algorithm_common', 'algorithm_common'));
+                                    input1.id = "base_branch" + rows;
+                                    input1.setAttribute("class", "input");
+                                    input1.setAttribute("name", "base_branch" + rows);
+                                    input1.setAttribute("placeholder", "");
+                                    div1.appendChild(select1);
+                                    td2.appendChild(div1);
+                                    td3.appendChild(input1);
+                                    tr.appendChild(td2);
+                                    tr.appendChild(td3);
+                                };
+                            </script>
                         </div>
                     </div>
                     <div class="field">

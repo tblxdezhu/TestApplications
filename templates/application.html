@@ -51,8 +51,8 @@
                         <tbody>
                         {% for repo in branches %}
                             <tr>
-                            <td>{{ repo.repo }}</td>
-                            <td>{{ repo.branch }}</td>
+                                <td>{{ repo.repo }}</td>
+                                <td>{{ repo.branch }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -68,14 +68,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>algorithm_common</td>
-                            <td>master</td>
-                        </tr>
-                        <tr>
-                            <td>algorithm_common_slam</td>
-                            <td>master</td>
-                        </tr>
+                        {% for repo in base_branches %}
+                            <tr>
+                                <td>{{ repo.repo }}</td>
+                                <td>{{ repo.branch }}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                     <h2>3.测试反馈</h2>
