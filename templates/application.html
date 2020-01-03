@@ -49,14 +49,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>algorithm_common</td>
-                            <td>bugfix/RDB-47291-svm-core-dump-occures-by-using-vtd-data</td>
-                        </tr>
-                        <tr>
-                            <td>algorithm_common_slam</td>
-                            <td>bugfix/RDB-47291-svm-core-dump-occures-by-using-vtd-data</td>
-                        </tr>
+                        {% for repo in branches %}
+                            <tr>
+                            <td>{{ repo.repo }}</td>
+                            <td>{{ repo.branch }}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                     <h4>2.2 配置，注意事项</h4>
