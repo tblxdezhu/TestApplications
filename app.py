@@ -61,7 +61,7 @@ class LoginForm(FlaskForm):
 class ApplicationForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     jira_ticket = StringField('Jira Ticket', validators=[DataRequired()])
-    expect_time = StringField('Except Time')
+    expect_time = StringField('Expect Time')
     test_data = TextAreaField('Test Data')
     compare_branches = TextAreaField('Base Branches')
     notes = TextAreaField('Notes')
