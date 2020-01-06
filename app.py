@@ -209,7 +209,7 @@ def get_application(application_id):
 @app.route('/management', methods=['POST', 'GET'])
 @login_required
 def admin():
-    if not current_user.username == 'zhenxuan.xu' or current_user.username == 'xin.li':
+    if current_user.username not in ['zhenxuan.xu', 'xin.li']:
         flash('You are not authorized to access this page', category='error')
         return redirect(url_for('index'))
     form = ResultForm()
