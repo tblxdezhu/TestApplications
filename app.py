@@ -156,7 +156,7 @@ def send_mail(mail_type, application):
         message.recipients = [application.author.username + "@ygomi.com"]
         message.cc.extend(['zhenxuan.xu@ygomi.com', 'xin.li@ygomi.com'])
         message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'],
-                                       port=app.config['FLASK_RUN_PORT'])
+                                       )
     else:
         if application.author.team == 'SLAM':
             message.recipients = ['zhenxuan.xu@ygomi.com']
@@ -165,7 +165,7 @@ def send_mail(mail_type, application):
             message.recipients = ['xin.li@ygomi.com']
             message.cc.append('zhenxuan.xu@ygomi.com')
         message.body = render_template('application.txt', name=current_user.username, application=application,
-                                       server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
+                                       server=app.config['SERVER_ADDRESS'])
     mail.send(message)
     # print("sender: ", message.sender)
     # print("recipients:  ", message.recipients)

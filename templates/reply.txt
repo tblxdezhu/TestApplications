@@ -1,6 +1,6 @@
 Hello {{ application.author.username }},
 
-I have completed the test application http://{{ server }}:{{ port }}/applications/{{ application.id }} you submitted, the test conclusion is {{ application.status }},
+I have completed the test application http://{{ server }}/applications/{{ application.id }} you submitted, the test conclusion is {{ application.status }},
 
 and the test report link / PR is as follows: {{ application.test_report_link }}
 

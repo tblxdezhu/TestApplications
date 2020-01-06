@@ -1,6 +1,6 @@
 Hello {{ name }},
 
-I submitted a test application : http://{{ server }}:{{ port }}/applications/{{ application.id }}.
+I submitted a test application : http://{{ server }}/applications/{{ application.id }}.
 
 
 Enjoy :)
