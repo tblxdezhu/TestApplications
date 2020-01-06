@@ -166,10 +166,10 @@ def send_mail(mail_type, application):
             message.cc.append('zhenxuan.xu@ygomi.com')
         message.body = render_template('application.txt', name=current_user.username, application=application,
                                        server=app.config['SERVER_ADDRESS'], port=app.config['FLASK_RUN_PORT'])
-    # mail.send(message)
-    print("sender: ", message.sender)
-    print("recipients:  ", message.recipients)
-    print("cc:  ", message.cc)
+    mail.send(message)
+    # print("sender: ", message.sender)
+    # print("recipients:  ", message.recipients)
+    # print("cc:  ", message.cc)
 
 
 @app.route('/login', methods=['POST', 'GET'])
