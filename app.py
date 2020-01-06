@@ -149,6 +149,7 @@ def get_branch(_request):
 
 def send_mail(mail_type, application):
     current_user_email = current_user.username + "@ygomi.com",
+    name = ''
     message = Message(
         subject=application.jira_ticket,
         sender=current_user_email[0],
@@ -164,10 +165,12 @@ def send_mail(mail_type, application):
         if application.author.team == 'SLAM':
             message.recipients = ['zhenxuan.xu@ygomi.com']
             message.cc.append('xin.li@ygomi.com')
+            name = 'zhenxuan'
         else:
             message.recipients = ['xin.li@ygomi.com']
             message.cc.append('zhenxuan.xu@ygomi.com')
-        message.body = render_template('application.txt', name=current_user.username, application=application,
+            name = 'xin'
+        message.body = render_template('application.txt', name=name, application=application,
                                        server=app.config['SERVER_ADDRESS'])
     mail.send(message)
     # print("sender: ", message.sender)
