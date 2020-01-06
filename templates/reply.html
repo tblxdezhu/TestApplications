@@ -1,0 +1,16 @@
+<div style="width: auto;padding: auto">
+    <h3>Hello {{ application.author.username }},</h3>
+    <p>
+        I have completed the <a href="http://{{ server }}/applications/{{ application.id }}">test application</a> you submitted, the test conclusion is <b>{{ application.status }}</b>.
+        {% if application.test_description %}
+            Because <b>{{ application.test_description }}</b>.
+        {% endif %}
+        {% if application.test_report_link %}
+            and the test report link / PR is as follows: <a href="{{ application.test_report_link }}">{{ application.test_report_link }}</a>.
+        {% endif %}
+    </p>
+    <br>
+    <br>
+    <br>
+    <small>This email was sent from <a href="http://{{ server }}/">Test Application System.</a></small>
+</div>

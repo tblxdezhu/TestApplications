@@ -158,8 +158,8 @@ def send_mail(mail_type, application):
     if mail_type == 'reply':
         message.recipients = [application.author.username + "@ygomi.com"]
         message.cc.extend(['zhenxuan.xu@ygomi.com', 'xin.li@ygomi.com'])
-        message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'],
-                                       )
+        message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'])
+        message.html = render_template('reply.html', application=application, server=app.config['SERVER_ADDRESS'])
     else:
         if application.author.team == 'SLAM':
             message.recipients = ['zhenxuan.xu@ygomi.com']
