@@ -15,6 +15,7 @@ import os
 from faker import Faker
 from flask_mail import Mail, Message
 from default_settings import DefaultConfig
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(config[DefaultConfig.FLASK_ENV])
@@ -23,6 +24,7 @@ login_manager.login_view = 'login'
 login_manager.init_app(app)
 db = SQLAlchemy(app)
 mail = Mail(app)
+migrate = Migrate(app, db)
 
 
 class User(db.Model, UserMixin):
@@ -48,6 +50,7 @@ class Application(db.Model):
     compare_branches = db.Column(db.Text)
     if_report = db.Column(db.Boolean, default=True)
     status = db.Column(db.String(20), default="todo")
+    test_description = db.Column(db.Text)
     test_report_link = db.Column(db.String(100))
 
 
@@ -214,6 +217,7 @@ def admin():
         application = Application.query.get(request.form['id'])
         application.test_report_link = form.link.data
         application.status = form.status.data
+        application.test_description = form.description.data
         db.session.commit()
         flash("Successfully modified", 'success')
         send_mail(mail_type='reply', application=application)
