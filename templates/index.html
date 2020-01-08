@@ -22,26 +22,10 @@
                     <a class="navbar-item " href="/management" id="Admin">
                         Manage application
                     </a>
-                    <a class="navbar-item " href="/version" id="version">
-                        Release note
+                    <a class="navbar-item " href="/about" id="version">
+                        About me
                     </a>
                 </div>
-                {#                <script type="text/javascript">#}
-                {#                    $(document).ready(function () {#}
-                {#                        $("#history_myself").click(function () {#}
-                {#                             $.ajax(#}
-                {#                                {#}
-                {#                                    type: 'GET',#}
-                {#                                    url: '/history/{{ current_user.username }}',#}
-                {#                                    dataType: 'html',#}
-                {#                                    success: function (data) {#}
-                {#                                        $("#history").html(data)#}
-                {#                                    }#}
-                {#                                }#}
-                {#                            )#}
-                {#                        })#}
-                {#                    })#}
-                {#                </script>#}
             </div>
             {% if current_user.is_authenticated %}
                 <a class="navbar-item" href="/logout">

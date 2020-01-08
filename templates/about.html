@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+{#{% include 'header.html' %}#}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Application System</title>
+    <link rel="shortcut icon" href="../static/pic/favicon.ico"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- Bulma Version 0.8.x-->
+    <link rel="stylesheet" href="../static/bulma/css/bulma.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/bulma/hero/hero.css">
+    <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx/dist/css/modal-fx.min.css"/>
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav class="navbar is-link is-fixed-top">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">Test Application System</a>
+        </div>
+    </div>
+</nav>
+<section class="container">
+    <div class="columns features">
+        <div class="column is-4">
+            <div class="card is-shady">
+                <div class="card-content">
+                    <div class="content">
+                        <h4>Background </h4>
+                        <p>In the previous testing process, developers submitted test applications to testers. They can only fill in the test intention, branch and other information through the
+                            confidence template, and then email and copy related colleagues. The steps are more complicated and it is not conducive to information statistics archiving. The Application
+                            System is based on this requirement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card is-shady">
+                <div class="card-content">
+                    <div class="content">
+                        <h4>Design</h4>
+                        <p>Due to the simple requirements, in order to facilitate development and maintenance, TAS is developed using the lightweight web framework
+                            <a href="https://palletsprojects.com/p/flask/">Flask</a> + <a href="https://bulma.io/">bulma</a>, the database is
+                            MySQL, and Gunicorn + Nginx is deployed.
+                            Please log in with a domain account to create a test request.</p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card is-shady">
+                <div class="card-content">
+                    <div class="content">
+                        <h4>Contact</h4>
+                        <p>If you have any suggestions and feedback, please send me an email at zhenxuan.xu@ygomi.com <br>or fill in the page: <a href="https://confluence.ygomi.com:8443/x/Fw3ABQ">https://confluence.ygomi.com:8443/x/Fw3ABQ</a>
+                        </p>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="intro column is-12 ">
+        <p class="subtitle" id="hitokoto"></p></div>
+    <div class="intro column is-8 is-offset-2">
+        <p><a href="https://confluence.ygomi.com:8443/x/Fw3ABQ">Beta v0.1</a></p>
+    </div>
+    <script>
+        fetch('https://v1.hitokoto.cn')
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (data) {
+                var hitokoto = document.getElementById('hitokoto');
+                hitokoto.innerText = data.hitokoto;
+            })
+            .catch(function (err) {
+                console.error(err);
+            })
+    </script>
+</section>
+<script src="../static/bulma/hero/bulma.js"></script>
+</body>
+</html>
+
