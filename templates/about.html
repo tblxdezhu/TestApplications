@@ -66,25 +66,30 @@
                 </div>
             </div>
         </div>
+    </div>
 
-    </div>
     <div class="intro column is-12 ">
-        <p class="subtitle" id="hitokoto"></p></div>
-    <div class="intro column is-8 is-offset-2">
-        <p><a href="https://confluence.ygomi.com:8443/display/RRT/Test+Application+System#TestApplicationSystem-4.%E7%89%88%E6%9C%AC%E6%97%A5%E5%BF%97">Beta v0.1</a></p>
+        <p class="subtitle" id="hitokoto"></p>
+{#        <p><a href="https://confluence.ygomi.com:8443/display/RRT/Test+Application+System#TestApplicationSystem-4.%E7%89%88%E6%9C%AC%E6%97%A5%E5%BF%97">Beta v0.1</a></p>#}
     </div>
-    <script>
-        fetch('https://v1.hitokoto.cn')
+
+    <div class="intro column is-8 is-offset-2">
+    </div>
+    {#    https://api.ooopn.com/ciba/api.php?type=text#}
+    {#    https://v1.hitokoto.cn#}
+    <script type="text/javascript">
+        fetch('https://api.ooopn.com/ciba/api.php?type=json')
             .then(function (res) {
                 return res.json();
             })
             .then(function (data) {
                 var hitokoto = document.getElementById('hitokoto');
-                hitokoto.innerText = data.hitokoto;
+                hitokoto.innerText = data["ciba-en"];
             })
             .catch(function (err) {
                 console.error(err);
             })
+
     </script>
 </section>
 <script src="../static/bulma/hero/bulma.js"></script>

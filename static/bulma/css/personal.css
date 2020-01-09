@@ -1,42 +1,57 @@
 .has-same-height .card {
-  height: 320px;
-  overflow: hidden;
+    height: 320px;
+    overflow: hidden;
 }
 
 .card-content h3 {
-  text-align: center;
+    text-align: center;
 }
 
 .table-profile td,
 th {
-  border: none !important;
+    border: none !important;
 }
 
 .table-profile td:first-of-type {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .skills-content .media {
-  margin: 0 !important;
-  padding: 4px !important;
-  border: 0 !important;
+    margin: 0 !important;
+    padding: 4px !important;
+    border: 0 !important;
 }
 
 .skills-content .progress {
-  height: 4px !important;
+    height: 4px !important;
 }
 
 .custom-tags {
-  text-align: center !important;
-  display: block;
+    text-align: center !important;
+    display: block;
 }
 
 .portfolio-container .card {
-  margin-bottom: 2em;
+    margin-bottom: 2em;
 }
 
 .section-heading {
-  text-align: center;
-  margin-top: 1em;
-  margin-bottom: 6em;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 6em;
+}
+
+.is-shady {
+    animation: flyintoright .4s backwards;
+    /*background: #fff;*/
+    /*box-shadow: rgba(0, 0, 0, .1) 0 1px 0;*/
+    border-radius: 4px;
+    /*display: inline-block;*/
+    margin: 10px;
+    position: relative;
+    transition: all .2s ease-in-out;
+}
+
+.is-shady:hover {
+    box-shadow: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
 }
