@@ -9,7 +9,7 @@
                 <div class="media">
                     <div class="media-content">
                         <p class="title is-4">
-                        <a href="/applications/{{ application.id }}">{{ application.jira_ticket }}</a>
+                            <a href="/applications/{{ application.id }}">{{ application.jira_ticket }}</a>
                             {% if application.status == 'todo' %}
                                 <span class="tag">{{ application.status }}</span>
                             {% elif application.status == 'Pass' %}
@@ -35,7 +35,74 @@
                             <button class="button is-link is-right" id="detail-{{ application.id }}">Detail</button>
                         </div>
                     </div>
-                    <div class="modal" id="modal-{{ application.id }}">
+
+                    <div id="modal-{{ application.id }}" class="modal modal-fx-3dSlit">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <!-- content -->
+                            <div class="card">
+                                <section class="modal-card-body">
+                                    <div class="field">
+                                        <label class="label">Owner</label>
+                                        <div class="control">
+                                            {{ application.author.username }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Description</label>
+                                        <div class="control">
+                                            {{ application.description }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Create Time</label>
+                                        <div class="control">
+                                            {{ application.create_time }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Except Time</label>
+                                        <div class="control">
+                                            {{ application.expected_time }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Test Data</label>
+                                        <div class="control">
+                                            {{ application.test_data }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Test Branches</label>
+                                        <div class="control">
+                                            {{ application.branches }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Base Branches</label>
+                                        <div class="control">
+                                            {{ application.compare_branches }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Notes</label>
+                                        <div class="control">
+                                            {{ application.notes }}
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Test report</label>
+                                        <div class="control">
+                                            <a href="{{ application.test_report_link }}">{{ application.test_report_link }}</a>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- end content -->
+                        </div>
+                        <button class="modal-close is-large" aria-label="close" id="application_{{ application.id }}_delete"></button>
+                    </div>
+                    <div class="modal" id="modal1-{{ application.id }}">
                         <div class="modal-background"></div>
                         <div class="modal-card">
                             <header class="modal-card-head">
