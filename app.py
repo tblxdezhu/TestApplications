@@ -16,6 +16,8 @@ from faker import Faker
 from flask_mail import Mail, Message
 from default_settings import DefaultConfig
 from flask_migrate import Migrate
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 app = Flask(__name__)
 app.config.from_object(config[DefaultConfig.FLASK_ENV])
@@ -25,6 +27,8 @@ login_manager.init_app(app)
 db = SQLAlchemy(app)
 mail = Mail(app)
 migrate = Migrate(app, db)
+app.config['FLASK_ADMIN_SWATCH'] = 'flatly'
+admin = Admin(app)
 
 
 class User(db.Model, UserMixin):
@@ -34,6 +38,9 @@ class User(db.Model, UserMixin):
     team = db.Column(db.String(20))
     email = db.Column(db.String(20))
     applications = db.relationship('Application', back_populates='author')
+
+    def __repr__(self):
+        return str(self.username)
 
 
 class Application(db.Model):
@@ -78,6 +85,34 @@ class ResultForm(FlaskForm):
     status = SelectField('Status', choices=[('Pass', 'Pass'), ('Failed', 'Failed')], validators=[DataRequired()])
     description = TextAreaField('Description')
     submit = SubmitField('Confirm')
+
+
+class MicroBlogModelView(ModelView):
+    column_exclude_list = ['create_time', 'expected_time', 'branches', 'compare_branches', 'if_report', 'test_data']
+    column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description', 'test_description', 'status']
+    column_searchable_list = ['jira_ticket', 'description']
+    column_editable_list = ['test_description', 'test_report_link', 'status']
+    form_choices = {
+        'status': [
+            ('Pass', 'Pass'),
+            ('Failed', 'Failed'),
+            ('todo', 'todo')
+        ]
+    }
+    column_default_sort = ('id', True)
+    create_modal = True
+    edit_modal = True
+    can_export = True
+    column_display_pk = True
+
+    def is_accessible(self):
+        return current_user.username in ['zhenxuan.xu', 'xin.li']
+
+    def inaccessible_callback(self, name, **kwargs):
+        return render_template('404.html'), 404
+
+
+admin.add_view(MicroBlogModelView(Application, db.session))
 
 
 @login_manager.user_loader
