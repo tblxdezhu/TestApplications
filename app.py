@@ -87,11 +87,12 @@ class ResultForm(FlaskForm):
     submit = SubmitField('Confirm')
 
 
-class MicroBlogModelView(ModelView):
+class ApplicationView(ModelView):
+    can_edit = False
     column_exclude_list = ['create_time', 'expected_time', 'branches', 'compare_branches', 'if_report', 'test_data']
     column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description', 'test_description', 'status']
     column_searchable_list = ['jira_ticket', 'description']
-    column_editable_list = ['test_description', 'test_report_link', 'status']
+    # column_editable_list = []
     form_choices = {
         'status': [
             ('Pass', 'Pass'),
@@ -106,13 +107,18 @@ class MicroBlogModelView(ModelView):
     column_display_pk = True
 
     def is_accessible(self):
-        return current_user.username in ['zhenxuan.xu', 'xin.li']
+        if current_user.username in ['zhenxuan.xu', 'xin.li']:
+            self.can_edit = True
+            # self.column_editable_list.extend(['test_description', 'test_report_link', 'status'])
+            # self.column_editable_list = ('test_description', 'test_report_link', 'status')
+
+        return True
 
     def inaccessible_callback(self, name, **kwargs):
         return render_template('404.html'), 404
 
 
-admin.add_view(MicroBlogModelView(Application, db.session))
+admin.add_view(ApplicationView(Application, db.session))
 
 
 @login_manager.user_loader
