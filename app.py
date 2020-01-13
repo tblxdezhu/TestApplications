@@ -57,8 +57,8 @@ class Application(db.Model):
     compare_branches = db.Column(db.Text)
     if_report = db.Column(db.Boolean, default=True)
     status = db.Column(db.String(20), default="todo")
-    test_description = db.Column(db.Text)
-    test_report_link = db.Column(db.String(100))
+    test_description = db.Column(db.Text, default='Null')
+    test_report_link = db.Column(db.String(100), default='Null')
 
 
 class LoginForm(FlaskForm):
@@ -92,7 +92,7 @@ class ApplicationView(ModelView):
     can_delete = False
     can_create = False
     column_exclude_list = ['create_time', 'expected_time', 'branches', 'compare_branches', 'if_report', 'test_data']
-    column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description','status']
+    column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description', 'status']
     column_searchable_list = ['jira_ticket', 'description']
     # column_editable_list = ['test_description', 'test_report_link', 'status']
     form_choices = {
