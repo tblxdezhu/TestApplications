@@ -89,10 +89,11 @@ class ResultForm(FlaskForm):
 
 class ApplicationView(ModelView):
     can_edit = False
+    can_delete = False
     column_exclude_list = ['create_time', 'expected_time', 'branches', 'compare_branches', 'if_report', 'test_data']
     column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description', 'test_description', 'status']
     column_searchable_list = ['jira_ticket', 'description']
-    # column_editable_list = []
+    # column_editable_list = ['test_description', 'test_report_link', 'status']
     form_choices = {
         'status': [
             ('Pass', 'Pass'),
@@ -109,8 +110,9 @@ class ApplicationView(ModelView):
     def is_accessible(self):
         if current_user.username in ['zhenxuan.xu', 'xin.li']:
             self.can_edit = True
+            self.can_delete = True
             # self.column_editable_list.extend(['test_description', 'test_report_link', 'status'])
-            # self.column_editable_list = ('test_description', 'test_report_link', 'status')
+            # self.column_editable_list = ['test_description', 'test_report_link', 'status']
 
         return True
 
