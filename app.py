@@ -92,7 +92,7 @@ class ApplicationView(ModelView):
     can_delete = False
     can_create = False
     column_exclude_list = ['create_time', 'expected_time', 'branches', 'compare_branches', 'if_report', 'test_data']
-    column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description', 'test_description', 'status']
+    column_filters = ['jira_ticket', 'author', 'create_time', 'expected_time', 'description','status']
     column_searchable_list = ['jira_ticket', 'description']
     # column_editable_list = ['test_description', 'test_report_link', 'status']
     form_choices = {
@@ -104,7 +104,7 @@ class ApplicationView(ModelView):
     }
     column_default_sort = ('id', True)
     create_modal = True
-    edit_modal = True
+    # edit_modal = True
     can_export = True
     column_display_pk = True
 
