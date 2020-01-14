@@ -9,7 +9,7 @@
                 <div class="media">
                     <div class="media-content">
                         <p class="title is-4">
-                        <a href="/applications/{{ application.id }}">{{ application.jira_ticket }}</a>
+                            <a href="/applications/{{ application.id }}">{{ application.jira_ticket }}</a>
                             {% if application.status == 'todo' %}
                                 <span class="tag">{{ application.status }}</span>
                             {% elif application.status == 'Pass' %}
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="content">
-                    {{ application.description }}
+                    {{ application.description|safe }}
                 </div>
                 <nav class="level">
                     <div class="level-left">
@@ -53,7 +53,7 @@
                                 <div class="field">
                                     <label class="label">Description</label>
                                     <div class="control">
-                                        {{ application.description }}
+                                        {{ application.description|safe }}
                                     </div>
                                 </div>
                                 <div class="field">
@@ -89,7 +89,7 @@
                                 <div class="field">
                                     <label class="label">Notes</label>
                                     <div class="control">
-                                        {{ application.notes }}
+                                        {{ application.notes|safe }}
                                     </div>
                                 </div>
                                 <div class="field">

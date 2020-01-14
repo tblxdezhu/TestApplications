@@ -32,7 +32,7 @@
                 <div class="content article-body">
                     <h2><strong>1.概述</strong></h2>
                     <h4><strong>1.1 发起测试的原因/测试功能</strong></h4>
-                    <p style="text-indent:2em;">{{ application.description }}</p>
+                    <p style="text-indent:2em;">{{ application.description|safe }}</p>
                     <h4>1.2 本测试对应的 JIRA Ticket</h4>
                     <p style="text-indent:2em;"><a href="https://jira.ygomi.com:8080/browse/{{ application.jira_ticket }}">{{ application.jira_ticket }}</a></p>
                     <h4>1.3 耗时估计/期望完成时间</h4>
@@ -58,7 +58,7 @@
                         </tbody>
                     </table>
                     <h4>2.2 配置，注意事项</h4>
-                    <p style="text-indent:2em;">{{ application.notes }}</p>
+                    <p style="text-indent:2em;">{{ application.notes|safe }}</p>
                     <h4>2.3 对比分支</h4>
                     <table class="table is-hoverable" style="text-indent:2em;">
                         <thead>

@@ -17,6 +17,7 @@ from default_settings import DefaultConfig
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_ckeditor import CKEditor, CKEditorField
 
 app = Flask(__name__)
 app.config.from_object(config[DefaultConfig.FLASK_ENV])
@@ -69,11 +70,13 @@ class LoginForm(FlaskForm):
 
 class ApplicationForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
+    # description = CKEditorField('Description', validators=[DataRequired()])
     jira_ticket = StringField('Jira Ticket', validators=[DataRequired()])
     expect_time = StringField('Expect Time')
     test_data = TextAreaField('Test Data')
     compare_branches = TextAreaField('Base Branches')
-    notes = TextAreaField('Notes')
+    # notes = TextAreaField('Notes')
+    notes = CKEditorField('Notes')
     team = SelectField('Team', choices=[('SLAM', 'SLAM'), ('SVM', 'SVM')])
     submit = SubmitField('Submit')
 
