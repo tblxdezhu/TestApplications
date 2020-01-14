@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, make_response, jsonify, current_app
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, RadioField, \
-    IntegerField
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, URL, InputRequired
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -113,8 +112,6 @@ class ApplicationView(ModelView):
             self.can_edit = True
             self.can_delete = True
             self.can_create = True
-            # self.column_editable_list.extend(['test_description', 'test_report_link', 'status'])
-            # self.column_editable_list = ['test_description', 'test_report_link', 'status']
 
         return True
 
