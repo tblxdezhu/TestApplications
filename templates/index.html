@@ -51,29 +51,39 @@
                 {{ current_user.username }}
             </h1>
             <h2 class="subtitle is-3">
-                Welcome to Test Application System  <font size="3">beta</font>
+                Welcome to Test Application System <font size="3">beta</font>
             </h2>
-
             <button id="start" class="button is-info">Start</button>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#start").click(function () {
-                    {% if current_user.is_authenticated %}
-                        $("#modal").addClass("is-active");
-                    {% else %}
-                        toastr.error("Please Login");
-                    {% endif %}
-                });
-                $("#submit_application_cancel").click(function () {
-                    $("#modal").removeClass("is-active");
-                });
-                $("#submit_application_delete").click(function () {
-                    $("#modal").removeClass("is-active");
-                });
 
+            <div class="container" style="position: relative;top:220px">
+                <div class="column is-1 is-offset-6">
+                    <div class="chevron"></div>
+                    <div class="chevron"></div>
+                    <div class="chevron"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#start").click(function () {
+                {% if current_user.is_authenticated %}
+                    $("#modal").addClass("is-active");
+                {% else %}
+                    toastr.error("Please Login");
+                {% endif %}
             });
-        </script>
+            $("#submit_application_cancel").click(function () {
+                $("#modal").removeClass("is-active");
+            });
+            $("#submit_application_delete").click(function () {
+                $("#modal").removeClass("is-active");
+            });
+
+        });
+    </script>
     </div>
     <form method="post">
         {{ form.csrf_token }}
@@ -248,7 +258,7 @@
                     <div class="field">
                         <label class="label">{{ form.notes.label }}</label>
                         <div class="control">
-                            {{ form.notes(class='textarea',placeholder='1.配置信息
+                            {{ form.notes(placeholder='1.配置信息
 2.验收标准
 3.其他注意事项') }}
                         </div>
@@ -272,6 +282,7 @@
             </div>
         </div>
     </form>
+
 
 </section>
 <section class="section" id="history">
