@@ -1,12 +1,23 @@
 <div style="width: auto;padding: auto">
-    <h3>Hello {{ application.author.username }},</h3>
+    <h4>Hello {{ application.author.username }},</h4>
     <p>
-        I have completed the <a href="http://{{ server }}/applications/{{ application.id }}">test application</a> you submitted, the test conclusion is <b>{{ application.status }}</b>.
-        {% if application.test_description %}
-            Because <b>{{ application.test_description }}</b>.
+        你提交的<a href="http://{{ server }}/applications/{{ application.id }}">测试申请</a>已经完成了测试，提测的内容如下：<br>
+        <br>
+        <br>
+        “{{ application.description }}”.<br>
+        <br>
+        <br>
+        {% if application.status == 'Pass' %}
+            恭喜你，<b>测试通过</b>。
+        {% else %}
+            {% if application.test_description %}
+                但是因为{{ application.test_description }}，<b>测试没有通过</b>。
+            {% else %}
+                <b>很不幸，测试没有通过</b>。
+            {% endif %}
         {% endif %}
         {% if application.test_report_link %}
-            and the test report link / PR is as follows: <a href="{{ application.test_report_link }}">{{ application.test_report_link }}</a>.
+            测试报告/PR 如下:<a href="{{ application.test_report_link }}">{{ application.test_report_link }}</a>.
         {% endif %}
     </p>
     <br>

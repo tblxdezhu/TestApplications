@@ -202,6 +202,7 @@ def send_mail(mail_type, application):
     )
 
     if mail_type == 'reply':
+        # message.recipients = ["zhenxuan.xu@ygomi.com"]
         message.recipients = [application.author.username + "@ygomi.com"]
         message.cc.extend(['zhenxuan.xu@ygomi.com', 'xin.li@ygomi.com'])
         message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'])
