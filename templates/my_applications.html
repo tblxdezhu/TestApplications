@@ -50,6 +50,9 @@
                             {% elif application.status == 'Failed' %}
                                 <button class="button is-danger"
                                         id="change-{{ application.id }}">{{ application.status }}</button>
+                            {% elif application.status == 'Reject' %}
+                                <button class="button is-danger"
+                                        id="change-{{ application.id }}">{{ application.status }}</button>
                             {% else %}
                                 <button class="button"
                                         id="change-{{ application.id }}">{{ application.status }}</button>

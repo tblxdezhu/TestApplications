@@ -84,7 +84,7 @@ class ApplicationForm(FlaskForm):
 class ResultForm(FlaskForm):
     id = StringField('Application id', validators=[DataRequired()])
     link = StringField('Test Report Link / PR')
-    status = SelectField('Status', choices=[('Pass', 'Pass'), ('Failed', 'Failed')], validators=[DataRequired()])
+    status = SelectField('Status', choices=[('Pass', 'Pass'), ('Failed', 'Failed'), ('Reject', 'Reject')], validators=[DataRequired()])
     description = TextAreaField('Description')
     submit = SubmitField('Confirm')
 
@@ -101,7 +101,8 @@ class ApplicationView(ModelView):
         'status': [
             ('Pass', 'Pass'),
             ('Failed', 'Failed'),
-            ('todo', 'todo')
+            ('todo', 'todo'),
+            ('Reject', 'Reject')
         ]
     }
     column_default_sort = ('id', True)
@@ -207,6 +208,11 @@ def send_mail(mail_type, application):
         message.cc.extend(['zhenxuan.xu@ygomi.com', 'xin.li@ygomi.com'])
         message.body = render_template('reply.txt', application=application, server=app.config['SERVER_ADDRESS'])
         message.html = render_template('reply.html', application=application, server=app.config['SERVER_ADDRESS'])
+    elif mail_type == 'reject':
+        # message.recipients = ["zhenxuan.xu@ygomi.com"]
+        message.recipients = [application.author.username + "@ygomi.com"]
+        message.cc.extend(['zhenxuan.xu@ygomi.com', 'xin.li@ygomi.com'])
+        message.html = render_template('reject.html', application=application, server=app.config['SERVER_ADDRESS'])
     else:
         if application.author.team == 'SLAM':
             message.recipients = ['zhenxuan.xu@ygomi.com']
@@ -269,7 +275,10 @@ def admin():
         application.test_description = form.description.data
         db.session.commit()
         flash("Successfully modified", 'success')
-        send_mail(mail_type='reply', application=application)
+        if application.status == 'Reject':
+            send_mail(mail_type='reject', application=application)
+        else:
+            send_mail(mail_type='reply', application=application)
         return redirect(url_for('admin'))
     applications = Application.query.order_by(Application.id.desc())
     return render_template('my_applications.html', applications=applications, form=form)
